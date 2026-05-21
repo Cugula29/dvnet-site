@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DV.NeT — Setup gamer, gadgets virais e tecnologia premium. As melhores ofertas em um só lugar.">
+<meta property="og:title" content="DV.NeT — Tech. Gamer. Viral.">
+<meta property="og:description" content="Gadgets virais, setup gamer e tecnologia premium com os melhores preços.">
+<title>DV.NeT — Tech. Gamer. Viral.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#020202;
+  --deep:#080808;
+  --surface:#0e0e0e;
+  --card:#141414;
+  --border:#1e1e1e;
+  --border2:#2a2a2a;
+  --text:#f0f0f0;
+  --muted:#606060;
+  --accent:#ffffff;
+  --red:#ff2e2e;
+  --green:#00e676;
+  --gold:#f5c518;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--text);
+  font-family:'Syne',sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+/* CUSTOM CURSOR */
+.cursor{
+  position:fixed;width:12px;height:12px;
+  background:#fff;border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .1s ease,width .2s,height .2s,background .2s;
+  mix-blend-mode:difference;
+}
+.cursor-ring{
+  position:fixed;width:40px;height:40px;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:50%;pointer-events:none;
+  z-index:9998;transform:translate(-50%,-50%);
+  transition:all .15s ease;
+}
+body:has(a:hover) .cursor{width:20px;height:20px}
+body:has(button:hover) .cursor{background:var(--red);width:16px;height:16px}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--deep)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* NAVBAR */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 40px;height:64px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(2,2,2,.7);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:all .3s;
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;letter-spacing:3px;
+  color:#fff;text-decoration:none;
+  position:relative;
+}
+.nav-logo span{color:var(--red)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{
+  color:var(--muted);text-decoration:none;
+  font-size:13px;font-weight:500;letter-spacing:.5px;
+  text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-links a:hover{color:#fff}
+.nav-actions{display:flex;gap:12px;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 18px;border-radius:4px;
+  font-family:'Syne',sans-serif;font-size:12px;
+  font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;text-decoration:none;
+  border:none;
+}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--muted)}
+.btn-ghost:hover{border-color:#fff;color:#fff}
+.btn-primary{background:#fff;color:#000}
+.btn-primary:hover{background:var(--red);color:#fff;transform:translateY(-1px)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#ff4444;transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,46,46,.3)}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:120px 80px 80px;
+  position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 0%, black 40%, transparent 100%);
+}
+.hero-glow{
+  position:absolute;top:-200px;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle, rgba(255,46,46,.12) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'DM Mono',monospace;
+  font-size:11px;color:var(--muted);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:28px;
+}
+.hero-eyebrow span{
+  width:6px;height:6px;background:var(--red);border-radius:50%;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hero h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(72px, 10vw, 140px);
+  line-height:.9;letter-spacing:-2px;
+  color:#fff;margin-bottom:32px;
+}
+.hero h1 em{
+  font-style:normal;
+  -webkit-text-stroke:1px rgba(255,255,255,.2);
+  color:transparent;
+}
+.hero-sub{
+  max-width:520px;
+  font-size:16px;line-height:1.7;
+  color:var(--muted);margin-bottom:48px;
+}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+.hero-stats{
+  display:flex;gap:48px;margin-top:80px;
+  padding-top:48px;border-top:1px solid var(--border);
+}
+.stat-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:48px;color:#fff;line-height:1;
+}
+.stat-label{
+  font-size:12px;color:var(--muted);
+  letter-spacing:.5px;margin-top:4px;
+}
+.hero-badge{
+  position:absolute;right:80px;top:50%;transform:translateY(-50%);
+  width:260px;background:var(--card);
+  border:1px solid var(--border);border-radius:12px;
+  padding:24px;animation:float 4s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(-50%) translateY(0)}50%{transform:translateY(-50%) translateY(-12px)}}
+.badge-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.badge-product{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+.badge-img{
+  width:52px;height:52px;border-radius:8px;
+  background:linear-gradient(135deg,#1a1a1a,#2a2a2a);
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+}
+.badge-info p{font-size:14px;font-weight:600;color:#fff}
+.badge-info span{font-size:12px;color:var(--muted);text-decoration:line-through}
+.badge-price{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;color:var(--green);letter-spacing:1px;
+}
+.badge-cta{
+  width:100%;padding:10px;background:var(--red);color:#fff;
+  border:none;border-radius:6px;font-family:'Syne',sans-serif;
+  font-size:12px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;cursor:pointer;
+  transition:all .2s;
+}
+.badge-cta:hover{background:#ff4444;transform:translateY(-1px)}
+
+/* TICKER */
+.ticker{
+  background:var(--red);padding:10px 0;
+  overflow:hidden;white-space:nowrap;
+}
+.ticker-track{
+  display:inline-flex;gap:40px;
+  animation:ticker 20s linear infinite;
+}
+.ticker-track span{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:14px;letter-spacing:2px;color:#fff;
+}
+.ticker-track span:nth-child(even){color:rgba(255,255,255,.5)}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* SECTION */
+.section{padding:100px 80px}
+.section-header{
+  display:flex;justify-content:space-between;
+  align-items:flex-end;margin-bottom:56px;
+}
+.section-tag{
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--red);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.section-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,5vw,64px);
+  color:#fff;line-height:1;letter-spacing:-1px;
+}
+
+/* PRODUCTS GRID */
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px;
+}
+.product-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+  position:relative;
+  cursor:pointer;
+}
+.product-card:hover{
+  border-color:var(--border2);
+  transform:translateY(-6px);
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
+}
+.product-card:hover .product-img{filter:brightness(1.1)}
+.product-badge{
+  position:absolute;top:14px;left:14px;z-index:2;
+  display:flex;gap:6px;
+}
+.badge-pill{
+  padding:4px 10px;border-radius:20px;
+  font-size:10px;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;
+}
+.badge-hot{background:var(--red);color:#fff}
+.badge-off{background:var(--gold);color:#000}
+.badge-new{background:var(--green);color:#000}
+.product-img{
+  width:100%;aspect-ratio:1;
+  background:linear-gradient(135deg,#111,#1a1a1a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:80px;transition:all .3s;
+}
+.product-body{padding:20px}
+.product-brand{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:var(--muted);letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:6px;
+}
+.product-name{
+  font-size:15px;font-weight:600;color:#fff;
+  margin-bottom:8px;line-height:1.3;
+}
+.stars{display:flex;gap:2px;margin-bottom:12px}
+.star{color:var(--gold);font-size:12px}
+.star.empty{color:var(--border2)}
+.product-pricing{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:16px;
+}
+.price-old{
+  font-size:13px;color:var(--muted);
+  text-decoration:line-through;
+}
+.price-new{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;color:#fff;letter-spacing:1px;
+}
+.price-off{
+  font-size:12px;font-weight:700;color:var(--green);
+}
+.product-coupon{
+  background:rgba(0,230,118,.08);border:1px dashed rgba(0,230,118,.3);
+  border-radius:6px;padding:8px 12px;
+  font-family:'DM Mono',monospace;font-size:11px;
+  color:var(--green);margin-bottom:16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.product-cta{
+  width:100%;padding:12px;
+  background:#fff;color:#000;
+  border:none;border-radius:6px;
+  font-family:'Syne',sans-serif;font-size:12px;
+  font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .2s;
+}
+.product-cta:hover{background:var(--red);color:#fff;transform:translateY(-1px)}
+.urgency-bar{
+  margin-top:12px;
+  font-size:11px;color:var(--muted);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.urgency-track{
+  height:3px;background:var(--border);
+  border-radius:2px;margin-top:6px;overflow:hidden;
+}
+.urgency-fill{
+  height:100%;background:var(--red);
+  border-radius:2px;transition:width .5s;
+}
+
+/* FEATURED SECTION */
+.featured-layout{
+  display:grid;grid-template-columns:1.2fr 1fr;
+  gap:24px;
+}
+.featured-main{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;
+  display:flex;flex-direction:column;
+  position:relative;
+  transition:all .3s;
+}
+.featured-main:hover{
+  border-color:var(--border2);
+  box-shadow:0 32px 80px rgba(0,0,0,.7);
+}
+.featured-img{
+  height:320px;background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:140px;position:relative;overflow:hidden;
+}
+.featured-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom, transparent 50%, var(--card) 100%);
+}
+.featured-body{padding:32px}
+.featured-body h3{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:40px;color:#fff;letter-spacing:-1px;margin-bottom:8px;
+}
+.featured-body p{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.featured-pricing{
+  display:flex;align-items:baseline;gap:12px;margin-bottom:24px;
+}
+.featured-old{font-size:16px;color:var(--muted);text-decoration:line-through}
+.featured-price{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:52px;color:#fff;letter-spacing:1px;
+}
+.featured-discount{
+  font-size:14px;font-weight:700;color:var(--green);
+  background:rgba(0,230,118,.1);padding:4px 10px;border-radius:4px;
+}
+.featured-sidebar{display:flex;flex-direction:column;gap:16px}
+.side-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  display:flex;gap:0;transition:all .3s;
+  cursor:pointer;
+}
+.side-card:hover{border-color:var(--border2);transform:translateX(4px)}
+.side-img{
+  width:100px;flex-shrink:0;
+  background:linear-gradient(135deg,#111,#1a1a1a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;
+}
+.side-body{padding:16px;flex:1}
+.side-body h4{font-size:13px;font-weight:600;color:#fff;margin-bottom:4px}
+.side-body p{font-size:11px;color:var(--muted);margin-bottom:8px}
+.side-price{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;color:var(--green);
+}
+
+/* COUNTDOWN */
+.countdown-section{
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:60px 80px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.countdown-left h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(32px,4vw,52px);
+  color:#fff;margin-bottom:8px;letter-spacing:-1px;
+}
+.countdown-left p{font-size:14px;color:var(--muted)}
+.countdown-timer{display:flex;gap:16px}
+.time-unit{text-align:center}
+.time-num{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:64px;color:var(--red);
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:8px 20px;
+  display:block;line-height:1;min-width:90px;
+}
+.time-label{font-size:11px;color:var(--muted);margin-top:6px;letter-spacing:1px;text-transform:uppercase}
+.time-sep{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:48px;color:var(--border2);
+  align-self:center;margin-top:-16px;
+}
+
+/* BLOG */
+.blog-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:20px;
+}
+.blog-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  transition:all .3s;cursor:pointer;
+}
+.blog-card:hover{border-color:var(--border2);transform:translateY(-4px)}
+.blog-img{
+  height:200px;background:linear-gradient(135deg,#111,#1a1a1a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:64px;
+  position:relative;overflow:hidden;
+}
+.blog-cat{
+  position:absolute;top:14px;left:14px;
+  padding:4px 10px;background:rgba(2,2,2,.8);
+  border:1px solid var(--border2);border-radius:20px;
+  font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;
+}
+.blog-body{padding:24px}
+.blog-body h3{
+  font-size:17px;font-weight:700;color:#fff;
+  margin-bottom:10px;line-height:1.3;
+}
+.blog-body p{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.blog-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;color:var(--muted);
+}
+.blog-meta span{display:flex;align-items:center;gap:4px}
+
+/* SOCIAL PROOF */
+.proof-section{padding:80px;background:var(--surface);border-top:1px solid var(--border)}
+.proof-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;margin-top:48px;
+}
+.review-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:24px;
+  transition:all .3s;
+}
+.review-card:hover{border-color:var(--border2)}
+.review-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,#1a1a1a,#2a2a2a);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.reviewer-name{font-size:14px;font-weight:600;color:#fff}
+.reviewer-tag{font-size:11px;color:var(--muted)}
+.review-text{font-size:13px;color:var(--muted);line-height:1.7}
+.verified{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;color:var(--green);margin-top:12px;
+}
+
+/* NEWSLETTER */
+.newsletter-section{
+  padding:100px 80px;
+  background:linear-gradient(135deg,var(--surface) 0%,var(--black) 100%);
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.newsletter-section::before{
+  content:'';position:absolute;
+  top:-50%;left:50%;transform:translateX(-50%);
+  width:600px;height:600px;
+  background:radial-gradient(circle, rgba(255,46,46,.08) 0%, transparent 70%);
+}
+.newsletter-section h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(48px,6vw,80px);
+  color:#fff;margin-bottom:16px;letter-spacing:-1px;
+}
+.newsletter-section p{
+  font-size:16px;color:var(--muted);margin-bottom:40px;
+}
+.newsletter-form{
+  display:flex;gap:0;max-width:480px;margin:0 auto 16px;
+}
+.newsletter-form input{
+  flex:1;padding:14px 20px;
+  background:var(--card);border:1px solid var(--border2);
+  border-right:none;border-radius:6px 0 0 6px;
+  color:#fff;font-family:'Syne',sans-serif;font-size:14px;
+  outline:none;
+}
+.newsletter-form input::placeholder{color:var(--muted)}
+.newsletter-form input:focus{border-color:var(--red)}
+.newsletter-form button{
+  padding:14px 24px;
+  background:var(--red);color:#fff;
+  border:none;border-radius:0 6px 6px 0;
+  font-family:'Syne',sans-serif;font-size:13px;
+  font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;
+  transition:background .2s;
+}
+.newsletter-form button:hover{background:#ff4444}
+.newsletter-micro{font-size:11px;color:var(--muted);margin-top:12px}
+
+/* VIP SECTION */
+.vip-section{
+  padding:100px 80px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;
+  align-items:center;
+}
+.vip-badge-wrap{position:relative}
+.vip-card{
+  background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);
+  border:1px solid var(--border);border-radius:20px;
+  padding:48px;position:relative;overflow:hidden;
+}
+.vip-card::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;
+  background:radial-gradient(circle,rgba(245,197,24,.1) 0%, transparent 70%);
+}
+.vip-crown{font-size:64px;margin-bottom:24px;display:block}
+.vip-card h3{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:48px;color:var(--gold);margin-bottom:16px;letter-spacing:-1px;
+}
+.vip-perks{list-style:none;display:flex;flex-direction:column;gap:12px}
+.vip-perks li{
+  display:flex;align-items:center;gap:10px;
+  font-size:14px;color:var(--muted);
+}
+.vip-perks li::before{content:'✦';color:var(--gold);font-size:10px}
+.vip-cta-wrap{margin-top:32px}
+
+/* FOOTER */
+.footer{
+  background:var(--deep);
+  border-top:1px solid var(--border);
+  padding:80px 80px 40px;
+}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:48px;margin-bottom:60px;
+}
+.footer-brand-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;letter-spacing:3px;color:#fff;margin-bottom:12px;
+}
+.footer-brand-name span{color:var(--red)}
+.footer-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:24px;max-width:280px}
+.footer-socials{display:flex;gap:10px}
+.social-btn{
+  width:36px;height:36px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:6px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;
+  text-decoration:none;transition:all .2s;cursor:pointer;
+}
+.social-btn:hover{border-color:var(--border2);background:var(--surface);transform:translateY(-2px)}
+.footer-col h4{
+  font-size:13px;font-weight:700;color:#fff;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;
+}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{
+  font-size:13px;color:var(--muted);text-decoration:none;
+  transition:color .2s;
+}
+.footer-col ul li a:hover{color:#fff}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:32px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.footer-bottom p{font-size:12px;color:var(--muted)}
+.footer-legal{display:flex;gap:24px}
+.footer-legal a{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-legal a:hover{color:#fff}
+
+/* SEARCH BAR */
+.search-wrap{
+  padding:24px 80px;background:var(--surface);
+  border-bottom:1px solid var(--border);
+}
+.search-inner{
+  display:flex;align-items:center;gap:0;
+  max-width:640px;margin:0 auto;
+}
+.search-inner input{
+  flex:1;padding:14px 20px;
+  background:var(--card);border:1px solid var(--border2);
+  border-right:none;border-radius:6px 0 0 6px;
+  color:#fff;font-family:'Syne',sans-serif;font-size:14px;
+  outline:none;transition:border-color .2s;
+}
+.search-inner input:focus{border-color:var(--border2)}
+.search-inner input::placeholder{color:var(--muted)}
+.search-inner button{
+  padding:14px 24px;background:var(--red);color:#fff;
+  border:none;border-radius:0 6px 6px 0;
+  font-size:18px;cursor:pointer;transition:background .2s;
+}
+.search-inner button:hover{background:#ff4444}
+.search-tags{
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;
+  max-width:640px;margin-top:12px;margin-left:auto;margin-right:auto;
+}
+.search-tag{
+  padding:4px 12px;background:transparent;
+  border:1px solid var(--border);border-radius:20px;
+  font-size:11px;color:var(--muted);cursor:pointer;
+  transition:all .2s;text-decoration:none;
+}
+.search-tag:hover{border-color:var(--red);color:var(--red)}
+
+/* OFFERS BANNER */
+.offers-banner{
+  margin:0 80px;padding:32px 40px;
+  background:linear-gradient(135deg,#1a0000,#0f0000);
+  border:1px solid rgba(255,46,46,.2);
+  border-radius:16px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;
+}
+.offers-banner h3{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:40px;color:#fff;letter-spacing:-1px;
+}
+.offers-banner p{font-size:14px;color:rgba(255,255,255,.5);margin-top:4px}
+.fire{font-size:32px}
+
+/* TRENDING */
+.trending-list{
+  display:flex;flex-direction:column;gap:12px;margin-top:40px;
+}
+.trend-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:10px;padding:16px 20px;
+  display:flex;align-items:center;gap:16px;
+  transition:all .2s;cursor:pointer;
+}
+.trend-item:hover{border-color:var(--border2);transform:translateX(4px)}
+.trend-rank{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px;color:var(--border2);
+  min-width:40px;
+}
+.trend-rank.top{color:var(--gold)}
+.trend-emoji{font-size:32px}
+.trend-info{flex:1}
+.trend-info h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:2px}
+.trend-info p{font-size:12px;color:var(--muted)}
+.trend-arrow{color:var(--muted);font-size:18px}
+.trend-item:hover .trend-arrow{color:var(--red)}
+
+/* REVEAL ANIMATION */
+.reveal{
+  opacity:0;transform:translateY(30px);
+  transition:all .7s cubic-bezier(.4,0,.2,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav{padding:0 20px}
+  .nav-links{display:none}
+  .hero{padding:100px 24px 60px}
+  .hero-badge{display:none}
+  .hero-stats{gap:24px;flex-wrap:wrap}
+  .section{padding:60px 24px}
+  .section-header{flex-direction:column;align-items:flex-start;gap:16px}
+  .featured-layout{grid-template-columns:1fr}
+  .countdown-section{flex-direction:column;padding:40px 24px;text-align:center;gap:32px}
+  .newsletter-section{padding:60px 24px}
+  .vip-section{grid-template-columns:1fr;padding:60px 24px}
+  .footer-top{grid-template-columns:1fr 1fr;padding-bottom:0}
+  .footer{padding:60px 24px 32px}
+  .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+  .search-wrap{padding:16px 24px}
+  .offers-banner{margin:0 24px;flex-direction:column;text-align:center}
+  .countdown-timer{gap:8px}
+  .time-num{font-size:48px;min-width:70px;padding:8px 14px}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="#" class="nav-logo">DV<span>.</span>NeT</a>
+  <ul class="nav-links">
+    <li><a href="#products">Produtos</a></li>
+    <li><a href="#offers">Ofertas</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#trending">Tendências</a></li>
+    <li><a href="#cupons">Cupons</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="#newsletter" class="btn btn-ghost">Grupo VIP</a>
+    <a href="#products" class="btn btn-primary">Ver Ofertas 🔥</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-eyebrow">
+    <span></span>
+    Gadgets virais · Setup gamer · Tecnologia premium
+  </div>
+
+  <h1 class="reveal">
+    TECH<br>
+    QUE <em>FAZ</em><br>
+    SENTIDO.
+  </h1>
+
+  <p class="hero-sub reveal reveal-delay-1">
+    Os melhores produtos de setup gamer, gadgets virais e tecnologia com preços absurdos. Curadoria diária dos produtos que estão bombando na internet.
+  </p>
+
+  <div class="hero-ctas reveal reveal-delay-2">
+    <a href="#products" class="btn btn-red" style="font-size:14px;padding:14px 28px">
+      🔥 Ver Ofertas de Hoje
+    </a>
+    <a href="#newsletter" class="btn btn-ghost" style="font-size:14px;padding:14px 28px">
+      Entrar no Grupo VIP
+    </a>
+  </div>
+
+  <div class="hero-stats reveal reveal-delay-3">
+    <div>
+      <div class="stat-num">47K+</div>
+      <div class="stat-label">Seguidores Ativos</div>
+    </div>
+    <div>
+      <div class="stat-num">R$2M+</div>
+      <div class="stat-label">Economizados pelos membros</div>
+    </div>
+    <div>
+      <div class="stat-num">890+</div>
+      <div class="stat-label">Produtos curados</div>
+    </div>
+    <div>
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Avaliação media</div>
+    </div>
+  </div>
+
+  <div class="hero-badge reveal reveal-delay-4">
+    <div class="badge-label">🔥 Oferta do momento</div>
+    <div class="badge-product">
+      <div class="badge-img">🎧</div>
+      <div class="badge-info">
+        <p>Headset Gamer Pro HX</p>
+        <span>R$ 649,00</span>
+      </div>
+    </div>
+    <div class="badge-price">R$ 289,90</div>
+    <button class="badge-cta" onclick="document.querySelector('#products').scrollIntoView({behavior:'smooth'})">
+      GARANTIR OFERTA →
+    </button>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="ticker">
+    <span>🔥 HEADSET GAMER</span><span>—</span>
+    <span>💺 CADEIRA PREMIUM</span><span>—</span>
+    <span>🖱️ MOUSE GAMER</span><span>—</span>
+    <span>⌨️ TECLADO MECÂNICO</span><span>—</span>
+    <span>🎮 CONTROLE PRO</span><span>—</span>
+    <span>🖥️ MONITOR 144HZ</span><span>—</span>
+    <span>💡 LED RGB SETUP</span><span>—</span>
+    <span>📷 WEBCAM 4K</span><span>—</span>
+    <span>🔥 HEADSET GAMER</span><span>—</span>
+    <span>💺 CADEIRA PREMIUM</span><span>—</span>
+    <span>🖱️ MOUSE GAMER</span><span>—</span>
+    <span>⌨️ TECLADO MECÂNICO</span><span>—</span>
+    <span>🎮 CONTROLE PRO</span><span>—</span>
+    <span>🖥️ MONITOR 144HZ</span><span>—</span>
+    <span>💡 LED RGB SETUP</span><span>—</span>
+    <span>📷 WEBCAM 4K</span><span>—</span>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-wrap">
+  <div class="search-inner">
+    <input type="text" placeholder="Buscar produtos, reviews, ofertas..." id="search-input">
+    <button onclick="handleSearch()">🔍</button>
+  </div>
+  <div class="search-tags">
+    <a href="#" class="search-tag" onclick="setSearch('headset gamer')">headset gamer</a>
+    <a href="#" class="search-tag" onclick="setSearch('mouse sem fio')">mouse sem fio</a>
+    <a href="#" class="search-tag" onclick="setSearch('monitor 144hz')">monitor 144hz</a>
+    <a href="#" class="search-tag" onclick="setSearch('cadeira gamer')">cadeira gamer</a>
+    <a href="#" class="search-tag" onclick="setSearch('webcam 4k')">webcam 4k</a>
+    <a href="#" class="search-tag" onclick="setSearch('teclado mecânico')">teclado mecânico</a>
+  </div>
+</div>
+
+<!-- OFFERS BANNER -->
+<div class="offers-banner" style="margin-top:32px">
+  <div>
+    <h3>🛒 AMAZON PRIME DAY ANTECIPADO</h3>
+    <p>Descontos de até 70% em setup gamer e gadgets. Só até amanhã!</p>
+  </div>
+  <a href="#products" class="btn btn-red" style="font-size:14px;padding:14px 28px;flex-shrink:0">
+    VER TODAS AS OFERTAS →
+  </a>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown-section" id="offers">
+  <div class="countdown-left">
+    <h2>⚡ OFERTA RELÂMPAGO</h2>
+    <p>Preços expiram em breve — garanta antes que acabe</p>
+  </div>
+  <div class="countdown-timer">
+    <div class="time-unit">
+      <span class="time-num" id="hours">23</span>
+      <div class="time-label">Horas</div>
+    </div>
+    <div class="time-sep">:</div>
+    <div class="time-unit">
+      <span class="time-num" id="minutes">47</span>
+      <div class="time-label">Min</div>
+    </div>
+    <div class="time-sep">:</div>
+    <div class="time-unit">
+      <span class="time-num" id="seconds">00</span>
+      <div class="time-label">Seg</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURED PRODUCTS -->
+<section class="section" id="products">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">🔥 Em Alta Agora</div>
+      <h2 class="section-title">PRODUTOS<br>VIRAIS</h2>
+    </div>
+    <a href="#" class="btn btn-ghost">Ver Todos →</a>
+  </div>
+
+  <div class="featured-layout">
+    <div class="featured-main">
+      <div class="product-badge">
+        <span class="badge-pill badge-hot">VIRAL</span>
+        <span class="badge-pill badge-off">-55%</span>
+      </div>
+      <div class="featured-img">🎧</div>
+      <div class="featured-body">
+        <p class="product-brand">HyperX Cloud</p>
+        <h3>HEADSET GAMER ALPHA S</h3>
+        <p>Som surround 7.1 virtual, microfone com cancelamento de ruído, conforto premium para longas sessões. O queridinho dos streamers brasileiros.</p>
+        <div class="featured-pricing">
+          <span class="featured-old">R$ 649,00</span>
+          <span class="featured-price">R$ 289,90</span>
+          <span class="featured-discount">-55%</span>
+        </div>
+        <div class="product-coupon">
+          <span>🎟️ Cupom: <strong>DVNET20</strong></span>
+          <span>-20% EXTRA</span>
+        </div>
+        <a href="#" class="btn btn-red" style="width:100%;justify-content:center;padding:14px">
+          🛒 VER OFERTA NA AMAZON
+        </a>
+        <div class="urgency-bar">
+          <span>🔥 68 pessoas vendo agora</span>
+          <span>Restam 7 unidades</span>
+        </div>
+        <div class="urgency-track">
+          <div class="urgency-fill" style="width:85%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="featured-sidebar">
+      <div class="side-card">
+        <div class="side-img">🖱️</div>
+        <div class="side-body">
+          <h4>Mouse Gamer Logitech G502X</h4>
+          <p>25K DPI · Wireless · 89g</p>
+          <div class="side-price">R$ 399,90 <span style="font-size:13px;color:var(--muted);font-family:Syne;text-decoration:line-through">R$699</span></div>
+          <div class="urgency-track" style="margin-top:8px">
+            <div class="urgency-fill" style="width:60%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="side-card">
+        <div class="side-img">⌨️</div>
+        <div class="side-body">
+          <h4>Teclado Mecânico TKL RGB</h4>
+          <p>Switch Red · PBT Doubleshot</p>
+          <div class="side-price">R$ 249,90 <span style="font-size:13px;color:var(--muted);font-family:Syne;text-decoration:line-through">R$449</span></div>
+          <div class="urgency-track" style="margin-top:8px">
+            <div class="urgency-fill" style="width:45%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="side-card">
+        <div class="side-img">🖥️</div>
+        <div class="side-body">
+          <h4>Monitor Curvo 27" 165Hz</h4>
+          <p>QHD 2K · 1ms · FreeSync</p>
+          <div class="side-price">R$ 1.299,90 <span style="font-size:13px;color:var(--muted);font-family:Syne;text-decoration:line-through">R$1.999</span></div>
+          <div class="urgency-track" style="margin-top:8px">
+            <div class="urgency-fill" style="width:70%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="side-card">
+        <div class="side-img">💺</div>
+        <div class="side-body">
+          <h4>Cadeira Gamer DXRacer Elite</h4>
+          <p>Couro Premium · Lombar 4D</p>
+          <div class="side-price">R$ 1.099,00 <span style="font-size:13px;color:var(--muted);font-family:Syne;text-decoration:line-through">R$1.899</span></div>
+          <div class="urgency-track" style="margin-top:8px">
+            <div class="urgency-fill" style="width:30%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT CARDS GRID -->
+<section class="section" style="padding-top:0">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">💥 Descontos Absurdos</div>
+      <h2 class="section-title">MAIS<br>OFERTAS</h2>
+    </div>
+    <a href="#" class="btn btn-ghost">Ver Tudo →</a>
+  </div>
+
+  <div class="products-grid">
+    <!-- Card 1 -->
+    <div class="product-card">
+      <div class="product-badge">
+        <span class="badge-pill badge-hot">HOT</span>
+        <span class="badge-pill badge-off">-40%</span>
+      </div>
+      <div class="product-img">📷</div>
+      <div class="product-body">
+        <div class="product-brand">Logitech</div>
+        <div class="product-name">Webcam StreamCam 1080p 60fps</div>
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span>
+          <span style="font-size:11px;color:var(--muted);margin-left:4px">(1.247)</span>
+        </div>
+        <div class="product-pricing">
+          <span class="price-old">R$599</span>
+          <span class="price-new">R$ 359</span>
+          <span class="price-off">-40%</span>
+        </div>
+        <div class="product-coupon">
+          <span>🎟️ DVNET10</span><span>-10% extra</span>
+        </div>
+        <button class="product-cta">VER OFERTA →</button>
+        <div class="urgency-bar">
+          <span>23 vendo agora</span>
+          <span>12 unid.</span>
+        </div>
+        <div class="urgency-track">
+          <div class="urgency-fill" style="width:75%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="product-card">
+      <div class="product-badge">
+        <span class="badge-pill badge-new">NOVO</span>
+      </div>
+      <div class="product-img">💡</div>
+      <div class="product-body">
+        <div class="product-brand">Elgato</div>
+        <div class="product-name">Ring Light Key Light Air Setup</div>
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star empty">★</span>
+          <span style="font-size:11px;color:var(--muted);margin-left:4px">(892)</span>
+        </div>
+        <div class="product-pricing">
+          <span class="price-old">R$899</span>
+          <span class="price-new">R$ 599</span>
+          <span class="price-off">-33%</span>
+        </div>
+        <div class="product-coupon">
+          <span>🎟️ SETUP15</span><span>-15% extra</span>
+        </div>
+        <button class="product-cta">VER OFERTA →</button>
+        <div class="urgency-bar">
+          <span>41 vendo agora</span>
+          <span>Última semana</span>
+        </div>
+        <div class="urgency-track">
+          <div class="urgency-fill" style="width:50%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="product-card">
+      <div class="product-badge">
+        <span class="badge-pill badge-hot">VIRAL</span>
+        <span class="badge-pill badge-off">-62%</span>
+      </div>
+      <div class="product-img">🎮</div>
+      <div class="product-body">
+        <div class="product-brand">Xbox</div>
+        <div class="product-name">Controle Xbox Elite Series 2</div>
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span>
+          <span style="font-size:11px;color:var(--muted);margin-left:4px">(2.341)</span>
+        </div>
+        <div class="product-pricing">
+          <span class="price-old">R$1.499</span>
+          <span class="price-new">R$ 569</span>
+          <span class="price-off">-62%</span>
+        </div>
+        <div class="product-coupon">
+          <span>🎟️ GAMER20</span><span>-20% extra</span>
+        </div>
+        <button class="product-cta">VER OFERTA →</button>
+        <div class="urgency-bar">
+          <span>🔥 87 vendo agora</span>
+          <span>3 unid.</span>
+        </div>
+        <div class="urgency-track">
+          <div class="urgency-fill" style="width:92%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="product-card">
+      <div class="product-badge">
+        <span class="badge-pill badge-off">-45%</span>
+      </div>
+      <div class="product-img">🎙️</div>
+      <div class="product-body">
+        <div class="product-brand">Blue Yeti</div>
+        <div class="product-name">Microfone Condensador USB Pro</div>
+        <div class="stars">
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span>
+          <span style="font-size:11px;color:var(--muted);margin-left:4px">(3.102)</span>
+        </div>
+        <div class="product-pricing">
+          <span class="price-old">R$1.099</span>
+          <span class="price-new">R$ 604</span>
+          <span class="price-off">-45%</span>
+        </div>
+        <div class="product-coupon">
+          <span>🎟️ MIC10</span><span>-10% extra</span>
+        </div>
+        <button class="product-cta">VER OFERTA →</button>
+        <div class="urgency-bar">
+          <span>15 vendo agora</span>
+          <span>Estoque alto</span>
+        </div>
+        <div class="urgency-track">
+          <div class="urgency-fill" style="width:25%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRENDING -->
+<section class="section" id="trending" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">📈 Trending</div>
+      <h2 class="section-title">BOMBANDO<br>AGORA</h2>
+    </div>
+    <span style="font-size:13px;color:var(--muted)">Atualizado há 2min</span>
+  </div>
+
+  <div class="trending-list">
+    <div class="trend-item">
+      <div class="trend-rank top">01</div>
+      <div class="trend-emoji">🎧</div>
+      <div class="trend-info">
+        <h4>Melhor Headset Gamer Custo-Benefício 2025</h4>
+        <p>+12.400 buscas · Visto 89K vezes · TikTok viral</p>
+      </div>
+      <span class="trend-arrow">→</span>
+    </div>
+    <div class="trend-item">
+      <div class="trend-rank top">02</div>
+      <div class="trend-emoji">🖱️</div>
+      <div class="trend-info">
+        <h4>Mouse Gamer Sem Fio até R$300</h4>
+        <p>+9.800 buscas · Visto 67K vezes</p>
+      </div>
+      <span class="trend-arrow">→</span>
+    </div>
+    <div class="trend-item">
+      <div class="trend-rank top">03</div>
+      <div class="trend-emoji">💺</div>
+      <div class="trend-info">
+        <h4>Setup Gamer Completo Abaixo de R$2.000</h4>
+        <p>+8.200 buscas · Visto 52K vezes</p>
+      </div>
+      <span class="trend-arrow">→</span>
+    </div>
+    <div class="trend-item">
+      <div class="trend-rank">04</div>
+      <div class="trend-emoji">🖥️</div>
+      <div class="trend-info">
+        <h4>Monitor 144Hz para Competitivo</h4>
+        <p>+7.100 buscas · Visto 44K vezes</p>
+      </div>
+      <span class="trend-arrow">→</span>
+    </div>
+    <div class="trend-item">
+      <div class="trend-rank">05</div>
+      <div class="trend-emoji">📷</div>
+      <div class="trend-info">
+        <h4>Webcam para Live e Home Office</h4>
+        <p>+5.900 buscas · Visto 38K vezes</p>
+      </div>
+      <span class="trend-arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="section" id="blog">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">📝 Blog & Reviews</div>
+      <h2 class="section-title">CONTEÚDO<br>PREMIUM</h2>
+    </div>
+    <a href="#" class="btn btn-ghost">Ver Blog →</a>
+  </div>
+
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-img">
+        🎧
+        <div class="blog-cat">Review</div>
+      </div>
+      <div class="blog-body">
+        <h3>HyperX Cloud Alpha S: Vale os R$290? Review Completo 2025</h3>
+        <p>Testamos por 30 dias seguidos. Aqui está a verdade sobre o headset mais falado do momento nos setups brasileiros...</p>
+        <div class="blog-meta">
+          <span>⏱ 8 min leitura</span>
+          <span>👁 42.891 views</span>
+          <span>📅 Hoje</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-img">
+        💺
+        <div class="blog-cat">Guia</div>
+      </div>
+      <div class="blog-body">
+        <h3>Setup Gamer Completo por R$2.000: Guia Definitivo 2025</h3>
+        <p>Montamos um setup profissional com o melhor custo-benefício do mercado. Do mouse ao monitor, tudo testado...</p>
+        <div class="blog-meta">
+          <span>⏱ 14 min leitura</span>
+          <span>👁 98.112 views</span>
+          <span>📅 Ontem</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-img">
+        🖱️
+        <div class="blog-cat">Top 10</div>
+      </div>
+      <div class="blog-body">
+        <h3>10 Melhores Mouses Gamer de 2025: Ranking Completo</h3>
+        <p>Comparamos os 10 mouses mais populares do mercado para te ajudar a escolher sem errar. Descubra qual domina...</p>
+        <div class="blog-meta">
+          <span>⏱ 11 min leitura</span>
+          <span>👁 71.440 views</span>
+          <span>📅 2 dias</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="proof-section">
+  <div style="text-align:center;margin-bottom:8px">
+    <div class="section-tag" style="justify-content:center;display:flex">⭐ Avaliações Reais</div>
+  </div>
+  <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,4vw,52px);color:#fff;text-align:center;letter-spacing:-1px">
+    O QUE A COMUNIDADE DIZ
+  </h2>
+
+  <div class="proof-grid">
+    <div class="review-card">
+      <div class="review-top">
+        <div class="avatar">🧑‍💻</div>
+        <div>
+          <div class="reviewer-name">Lucas Mendes</div>
+          <div class="reviewer-tag">@lucassetup · São Paulo</div>
+        </div>
+        <div class="stars" style="margin-left:auto;margin-bottom:0">
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+      </div>
+      <p class="review-text">"Economizei R$400 no meu headset graças ao cupom do DV.NeT. Nunca mais compro sem verificar aqui primeiro. Melhor comunidade de tech do Brasil!"</p>
+      <div class="verified">✅ Compra verificada · HyperX Alpha S</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-top">
+        <div class="avatar">👩‍🎮</div>
+        <div>
+          <div class="reviewer-name">Ana Rodrigues</div>
+          <div class="reviewer-tag">@anastreamer · Curitiba</div>
+        </div>
+        <div class="stars" style="margin-left:auto;margin-bottom:0">
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+      </div>
+      <p class="review-text">"O grupo VIP é sensacional! Fui avisada da promoção do monitor às 2h da manhã e consegui. Sem o DV.NeT teria perdido. Virei fã!"</p>
+      <div class="verified">✅ Membro VIP · Monitor 27" 165Hz</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-top">
+        <div class="avatar">🎮</div>
+        <div>
+          <div class="reviewer-name">Matheus Costa</div>
+          <div class="reviewer-tag">@matheuscgamer · Rio de Janeiro</div>
+        </div>
+        <div class="stars" style="margin-left:auto;margin-bottom:0">
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+      </div>
+      <p class="review-text">"Montei meu setup gamer completo com as dicas do blog do DV.NeT. Gastei R$1.800 e ficou melhor que setups de R$4.000. Conteúdo de alto nível!"</p>
+      <div class="verified">✅ Setup Completo · R$1.800</div>
+    </div>
+  </div>
+</div>
+
+<!-- VIP -->
+<div class="vip-section" id="vip">
+  <div>
+    <div class="section-tag">👑 Acesso Exclusivo</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,80px);color:#fff;letter-spacing:-2px;margin-bottom:20px;line-height:1">
+      GRUPO<br>VIP<br>GRÁTIS
+    </h2>
+    <p style="font-size:16px;color:var(--muted);max-width:420px;line-height:1.7;margin-bottom:32px">
+      Receba ofertas relâmpago antes de todo mundo, cupons exclusivos, e alertas de preço dos produtos do seu setup. É grátis, é rápido, é valioso.
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="#newsletter" class="btn btn-red" style="font-size:14px;padding:14px 28px">
+        🔔 Entrar no Grupo VIP
+      </a>
+      <a href="#blog" class="btn btn-ghost" style="font-size:14px;padding:14px 28px">
+        Ver como funciona
+      </a>
+    </div>
+  </div>
+  <div class="vip-badge-wrap">
+    <div class="vip-card">
+      <span class="vip-crown">👑</span>
+      <h3>MEMBRO VIP</h3>
+      <ul class="vip-perks">
+        <li>Ofertas 24h antes do público</li>
+        <li>Cupons exclusivos (-20% extra)</li>
+        <li>Alertas de preço via WhatsApp</li>
+        <li>Acesso ao grupo Telegram secreto</li>
+        <li>Reviews antecipados dos produtos</li>
+        <li>Sorteios mensais de gadgets</li>
+        <li>Sem spam. Só o que importa.</li>
+      </ul>
+      <div class="vip-cta-wrap">
+        <a href="#newsletter" class="btn btn-primary" style="width:100%;justify-content:center;padding:14px;font-size:14px">
+          ENTRAR AGORA — É GRÁTIS
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="newsletter-section" id="newsletter">
+  <h2>NÃO PERCA<br>NENHUMA OFERTA</h2>
+  <p>Entre para a lista e receba as melhores ofertas diretamente no seu e-mail.</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="seu@email.com" id="email-input">
+    <button onclick="handleSubscribe()">QUERO ENTRAR</button>
+  </div>
+  <div class="newsletter-micro" id="subscribe-msg">
+    🔒 Sem spam. Pode cancelar quando quiser. Mais de 47.000 inscritos.
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">DV<span>.</span>NeT</div>
+      <p class="footer-desc">
+        A maior plataforma de curadoria de setup gamer, gadgets virais e tecnologia premium do Brasil. Produto certo, preço justo, sempre.
+      </p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#" title="TikTok">📱</a>
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="YouTube">▶️</a>
+        <a class="social-btn" href="#" title="Telegram">✈️</a>
+        <a class="social-btn" href="#" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Produtos</h4>
+      <ul>
+        <li><a href="#">Headsets Gamer</a></li>
+        <li><a href="#">Mouses Gamer</a></li>
+        <li><a href="#">Teclados</a></li>
+        <li><a href="#">Monitores</a></li>
+        <li><a href="#">Cadeiras Gamer</a></li>
+        <li><a href="#">Webcams</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Conteúdo</h4>
+      <ul>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Reviews</a></li>
+        <li><a href="#">Comparações</a></li>
+        <li><a href="#">Guias</a></li>
+        <li><a href="#">Trending</a></li>
+        <li><a href="#">Cupons</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Contato</a></li>
+        <li><a href="#">Anuncie</a></li>
+        <li><a href="#">Afiliados</a></li>
+        <li><a href="#">Imprensa</a></li>
+        <li><a href="#">Política</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 DV.NeT — Todos os direitos reservados. Site de curadoria e afiliados.</p>
+    <div class="footer-legal">
+      <a href="#">Privacidade</a>
+      <a href="#">Termos</a>
+      <a href="#">Cookies</a>
+      <a href="#">Afiliados</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+
+// COUNTDOWN
+function startCountdown(){
+  const end=new Date();end.setHours(23,59,59,0);
+  setInterval(()=>{
+    const now=new Date();const diff=end-now;
+    if(diff<=0)return;
+    const h=Math.floor(diff/3600000);
+    const m=Math.floor((diff%3600000)/60000);
+    const s=Math.floor((diff%60000)/1000);
+    document.getElementById('hours').textContent=String(h).padStart(2,'0');
+    document.getElementById('minutes').textContent=String(m).padStart(2,'0');
+    document.getElementById('seconds').textContent=String(s).padStart(2,'0');
+  },1000);
+}
+startCountdown();
+
+// SCROLL REVEAL
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.1});
+document.querySelectorAll('.reveal,.product-card,.blog-card,.review-card,.trend-item,.side-card').forEach(el=>{
+  el.classList.add('reveal');observer.observe(el);
+});
+
+// SEARCH
+function handleSearch(){
+  const q=document.getElementById('search-input').value;
+  if(q)alert('Buscando por: '+q+'\n\n(Integre com sua lógica de busca aqui)');
+}
+function setSearch(q){
+  document.getElementById('search-input').value=q;
+  document.getElementById('search-input').focus();
+  return false;
+}
+document.getElementById('search-input').addEventListener('keydown',e=>{if(e.key==='Enter')handleSearch()});
+
+// NEWSLETTER
+function handleSubscribe(){
+  const email=document.getElementById('email-input').value;
+  if(!email||!email.includes('@')){
+    document.getElementById('subscribe-msg').textContent='⚠️ Digite um e-mail válido!';
+    return;
+  }
+  document.getElementById('subscribe-msg').innerHTML='<span style="color:var(--green)">✅ Incrível! Você entrou para a lista VIP. Bem-vindo(a)!</span>';
+  document.getElementById('email-input').value='';
+}
+
+// NAVBAR SCROLL
+window.addEventListener('scroll',()=>{
+  const nav=document.querySelector('.nav');
+  if(window.scrollY>50){
+    nav.style.background='rgba(2,2,2,.95)';
+    nav.style.borderBottomColor='#1e1e1e';
+  }else{
+    nav.style.background='rgba(2,2,2,.7)';
+  }
+});
+
+// PRODUCT CARD HOVER LIFT
+document.querySelectorAll('.product-cta').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.textContent='✅ ABRINDO OFERTA...';
+    setTimeout(()=>{btn.textContent='VER OFERTA →'},2000);
+  });
+});
+</script>
+</body>
+</html>
