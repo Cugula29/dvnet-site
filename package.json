@@ -1,0 +1,15 @@
+{
+  "name": "dvnet-site",
+  "version": "1.0.0",
+  "description": "DV.NeT — Tech. Gamer. Viral.",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
