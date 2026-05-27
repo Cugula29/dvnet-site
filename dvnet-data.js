@@ -1,35 +1,326 @@
-// dvnet-data.js — Gerado pelo DV.NeT Admin
-// Atualizado em: 26/05/2026, 23:59
-
-(function(){
-const DVNET_PRODUCTS=[{"id":1,"emoji":"🎧","badge":"TOP","name":"Havit H2002D","brand":"Havit","cat":"headset","desc":"Havit Headphone Fone de Ouvido H2002d, Gamer, com Microfone, Falante 53mm, Plug 3, 5mm: compatível com XBOX ONE e PS4, HAVIT, HV-H2002d","img":"https://m.media-amazon.com/images/I/71+kXnOiM2L._AC_SL1500_.jpg","priceOrig":294.6,"priceSale":139.99,"coupon":"GAMER10","couponPct":"-10% EXTRA","link":"https://amzn.to/4x7PpXI","views":0,"units":"0","stars":5,"reviews":1247},{"id":2,"emoji":"📦","badge":"VIRAL","name":"Havit  Fuxi-H3","brand":"Havit","cat":"headset","desc":"Havit Fone de Ouvido Headset Gamer Fuxi-H3","img":"https://m.media-amazon.com/images/I/71g1gS6qGmL._AC_SX300_SY300_QL70_ML2_.jpg","priceOrig":265.45,"priceSale":151.98,"coupon":"","couponPct":"","link":"#https://amzn.to/4wU6vYR","views":0,"units":"Estoque alto","stars":5,"reviews":7157},{"id":3,"emoji":"⌨️","badge":"VIRAL","name":"Headset ASTRO A10","brand":"ASTRO ","cat":"headset","desc":"Headset Com Fio ASTRO A10 Gaming Gen 2 Com Microfone Flip-to-mute, Drivers de 32 mm, Compatível com PlayStation 5, PlayStation 4, Nintendo Switch, PC, Mac - Branco","img":"https://m.media-amazon.com/images/I/61L6NgK5J4L._AC_SY300_SX300_QL70_ML2_.jpg","priceOrig":499.9,"priceSale":384,"coupon":"","couponPct":"","link":"https://amzn.to/4uy6eZT","views":-2,"units":"","stars":4,"reviews":215},{"id":4,"emoji":"🖥️","badge":"VIRAL","name":"Monitor Gamer LG UltraGear 27","brand":"LG ULTRAGEAR","cat":"monitor","desc":"Monitor Gamer LG UltraGear 27” 27GS60F-B IPS Full HD 180Hz 1ms (GtG) NVIDIA® G-SYNC® AMD FreeSync™ HDR10 sRGB 99% HDMI DisplayPort","img":"https://m.media-amazon.com/images/I/61GElLiaorL._AC_SL1000_.jpg","priceOrig":1.299,"priceSale":1.019,"coupon":"GAMER100OFF ","couponPct":"R$ 100,00 0FF","link":"#https://amzn.to/4u3EE5Z","views":0,"units":"","stars":5,"reviews":1962},{"id":5,"emoji":"🖥️","badge":"VIRAL","name":"Monitor Gamer LG UltraGear 24","brand":"LG ULTRAGEAR","cat":"monitor","desc":"Monitor Gamer LG UltraGear 27” 27GS60F-B IPS Full HD 180Hz 1ms (GtG) NVIDIA® G-SYNC® AMD FreeSync™ HDR10 sRGB 99% HDMI DisplayPort","img":"https://m.media-amazon.com/images/I/61GElLiaorL._AC_SL1000_.jpg","priceOrig":1199,"priceSale":834.71,"coupon":"GAMER10 ","couponPct":"- 10% EXTRA","link":"https://amzn.to/4dNANDV","views":0,"units":"","stars":4.5,"reviews":4259},{"id":6,"emoji":"📷","badge":"VIRAL","name":"Monitor LG UltraGear 27","brand":"LG ULTRAGEAR","cat":"monitor","desc":"Monitor LG UltraGear 27GN750-27\" IPS Full HD, 240Hz, 1ms (GtG), NVIDIA G-Sync, HDMI, USB 3.0 e Ajustes de Inclinação, Preto","img":"https://m.media-amazon.com/images/I/61bd+vWazsL._AC_SL1200_.jpg","priceOrig":2.199,"priceSale":1.559,"coupon":"","couponPct":"","link":"https://amzn.to/4tZtMpw","views":0,"units":"","stars":4.5,"reviews":283},{"id":7,"emoji":"📦","badge":"VIRAL","name":"Redragon Kumara Pro V2","brand":"REDRAGON","cat":"teclado","desc":"Teclado Magnético Gamer Redragon Kumara Pro V2 RGB Preto Switch Marrom K552RGB-PRO (PT-BROWN) V2","img":"https://m.media-amazon.com/images/I/61nvk16RZrL._AC_SL1500_.jpg","priceOrig":369,"priceSale":325,"coupon":"","couponPct":"","link":"https://amzn.to/4u15oUF","views":0,"units":"","stars":4.5,"reviews":127},{"id":8,"emoji":"🎙️","badge":"VIRAL","name":"Redragon Dark Avenge","brand":"REDRAGON","cat":"teclado","desc":"Teclado Mecânico Redragon Dark Avenger RGB Lunar White Switch Vermelho K568W-RGB","img":"https://m.media-amazon.com/images/I/51xoetNmlOL._AC_SL1000_.jpg","priceOrig":184.9,"priceSale":175,"coupon":"","couponPct":"","link":"https://amzn.to/4nSiguQ","views":0,"units":"","stars":5,"reviews":160},{"id":1779850408100,"emoji":"📦","badge":"VIRAL","name":"Redragon Fizz RGB","brand":"REDRAGON","cat":"teclado","desc":"Teclado Magnético Gamer Redragon Fizz RGB Preto 60% Polling Rate 8K Rapid Trigger Switch Linear K617RGB-M","img":"https://m.media-amazon.com/images/I/61iF9YbMcEL._AC_SL1500_.jpg","priceOrig":301.28,"priceSale":188,"coupon":"","couponPct":"","link":"https://amzn.to/4dLjgMr","views":0,"units":"","stars":5,"reviews":31}];
-const DVNET_BLOGS=[{"id":1,"title":"HyperX Cloud Alpha S: Vale os R$290?","cat":"Review","read":"5 min","desc":"Testamos o headset por 30 dias e chegamos a uma conclusão definitiva.","img":"","link":"#","views":42891,"date":"2025-05-20"},{"id":2,"title":"Setup Gamer por R$2.000: Guia Definitivo 2025","cat":"Guia","read":"12 min","desc":"Montamos o melhor setup gamer possível sem estourar o orçamento.","img":"","link":"#","views":98112,"date":"2025-05-18"},{"id":3,"title":"10 Melhores Mouses Gamer de 2025","cat":"Top 10","read":"8 min","desc":"Comparamos os top 10 mouses do mercado em todas as faixas de preço.","img":"","link":"#","views":71440,"date":"2025-05-15"}];
-const DVNET_TRENDS=[{"id":1,"emoji":"🎮","name":"Controle Xbox Elite Series 2","cat":"Controle","change":"+127%","link":"#","badge":"🔥 VIRAL"},{"id":2,"emoji":"🎧","name":"HyperX Cloud Alpha S","cat":"Headset","change":"+89%","link":"#","badge":""},{"id":3,"emoji":"🖱️","name":"Mouse Logitech G502X","cat":"Mouse","change":"+63%","link":"#","badge":""},{"id":4,"emoji":"⌨️","name":"Teclado Mecânico TKL","cat":"Teclado","change":"+41%","link":"#","badge":"🆕 NOVO"},{"id":5,"emoji":"📷","name":"Webcam StreamCam 1080p","cat":"Webcam","change":"+35%","link":"#","badge":""}];
-const DVNET_CUPONS=[{"id":1,"code":"DVNET20","pct":"-20%","store":"Amazon · Headsets","desc":"","exp":"2025-12-31","status":"ativo"},{"id":2,"code":"GAMER15","pct":"-15%","store":"Amazon · Teclados e Mouses","desc":"","exp":"2025-11-30","status":"ativo"},{"id":3,"code":"FLASH30","pct":"-30%","store":"Amazon · Oferta relâmpago","desc":"Apenas para a oferta do dia","exp":"2025-06-30","status":"ativo"},{"id":4,"code":"SETUP10","pct":"-10%","store":"Amazon · Monitores","desc":"","exp":"2025-10-31","status":"ativo"},{"id":5,"code":"MIC10","pct":"-10%","store":"Amazon · Microfones","desc":"","exp":"2025-09-30","status":"ativo"},{"id":6,"code":"CHAIR25","pct":"-25%","store":"Amazon · Cadeiras Gamer","desc":"","exp":"2025-08-31","status":"ativo"}];
-
-function fmt(n){return(+n).toLocaleString('pt-BR',{minimumFractionDigits:2});}
-function disc(o,s){return o>0&&s>0?Math.round((1-(s/o))*100):0;}
-function stars(n){return'★'.repeat(Math.floor(n))+(n%1>=.5?'½':'')+'☆'.repeat(5-Math.ceil(n));}
-
-function renderProducts(){
-  const sec=document.getElementById('products')||document.querySelector('section[id*="product"]');
-  if(!sec)return;
-  let grid=sec.querySelector('.dvnet-injected');
-  if(!grid){grid=document.createElement('div');grid.className='dvnet-injected';grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:0 5%';sec.appendChild(grid);}
-  grid.innerHTML=DVNET_PRODUCTS.map(p=>{const d=disc(p.priceOrig,p.priceSale);return `<div style="background:#1a1a2e;border:1px solid #ffffff1a;border-radius:14px;overflow:hidden"><div style="height:120px;background:#16162a;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative">${p.img?'<img src="'+p.img+'" style="width:100%;height:100%;object-fit:cover">':'<span>'+p.emoji+'</span>'}${p.badge?'<span style="position:absolute;top:8px;left:8px;background:#ff4d00;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px">'+p.badge+'</span>':''}${d?'<span style="position:absolute;top:8px;right:8px;background:#00d97e;color:#000;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px">-'+d+'%</span>':''}</div><div style="padding:14px">${p.brand?'<div style="font-size:10px;color:#8888aa;font-weight:600;text-transform:uppercase;margin-bottom:3px">'+p.brand+'</div>':''}<div style="font-size:14px;font-weight:700;margin-bottom:6px;color:#f0f0ff">${p.name}</div>${p.desc?'<div style="font-size:12px;color:#8888aa;margin-bottom:8px">'+p.desc+'</div>':''}<div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px"><span style="font-size:20px;font-weight:700;color:#ff4d00">R$${fmt(p.priceSale)}</span>${p.priceOrig?'<span style="font-size:12px;color:#8888aa;text-decoration:line-through">R$'+fmt(p.priceOrig)+'</span>':''}</div>${p.coupon?'<div style="font-size:11px;background:#00d97e15;color:#00d97e;padding:4px 8px;border-radius:6px;margin-bottom:8px;display:inline-block">🎟️ <b>'+p.coupon+'</b> '+p.couponPct+'</div>':''}<a href="${p.link}" target="_blank" rel="noopener" style="display:block;padding:10px;background:#ff4d00;color:#fff;border-radius:8px;font-weight:700;font-size:13px;text-align:center;text-decoration:none">🛒 VER OFERTA</a></div></div>`;}).join('');
+{
+  "version": "1.0",
+  "date": "2026-05-27T03:00:48.342Z",
+  "products": [
+    {
+      "id": 1,
+      "emoji": "🎧",
+      "badge": "TOP",
+      "name": "Havit H2002D",
+      "brand": "Havit",
+      "cat": "headset",
+      "desc": "Havit Headphone Fone de Ouvido H2002d, Gamer, com Microfone, Falante 53mm, Plug 3, 5mm: compatível com XBOX ONE e PS4, HAVIT, HV-H2002d",
+      "img": "https://m.media-amazon.com/images/I/71+kXnOiM2L._AC_SL1500_.jpg",
+      "priceOrig": 294.6,
+      "priceSale": 139.99,
+      "coupon": "GAMER10",
+      "couponPct": "-10% EXTRA",
+      "link": "https://amzn.to/4x7PpXI",
+      "views": 0,
+      "units": "0",
+      "stars": 5,
+      "reviews": 1247
+    },
+    {
+      "id": 2,
+      "emoji": "📦",
+      "badge": "VIRAL",
+      "name": "Havit  Fuxi-H3",
+      "brand": "Havit",
+      "cat": "headset",
+      "desc": "Havit Fone de Ouvido Headset Gamer Fuxi-H3",
+      "img": "https://m.media-amazon.com/images/I/71g1gS6qGmL._AC_SX300_SY300_QL70_ML2_.jpg",
+      "priceOrig": 265.45,
+      "priceSale": 151.98,
+      "coupon": "",
+      "couponPct": "",
+      "link": "#https://amzn.to/4wU6vYR",
+      "views": 0,
+      "units": "Estoque alto",
+      "stars": 5,
+      "reviews": 7157
+    },
+    {
+      "id": 3,
+      "emoji": "⌨️",
+      "badge": "VIRAL",
+      "name": "Headset ASTRO A10",
+      "brand": "ASTRO ",
+      "cat": "headset",
+      "desc": "Headset Com Fio ASTRO A10 Gaming Gen 2 Com Microfone Flip-to-mute, Drivers de 32 mm, Compatível com PlayStation 5, PlayStation 4, Nintendo Switch, PC, Mac - Branco",
+      "img": "https://m.media-amazon.com/images/I/61L6NgK5J4L._AC_SY300_SX300_QL70_ML2_.jpg",
+      "priceOrig": 499.9,
+      "priceSale": 384,
+      "coupon": "",
+      "couponPct": "",
+      "link": "https://amzn.to/4uy6eZT",
+      "views": -2,
+      "units": "",
+      "stars": 4,
+      "reviews": 215
+    },
+    {
+      "id": 4,
+      "emoji": "🖥️",
+      "badge": "VIRAL",
+      "name": "Monitor Gamer LG UltraGear 27",
+      "brand": "LG ULTRAGEAR",
+      "cat": "monitor",
+      "desc": "Monitor Gamer LG UltraGear 27” 27GS60F-B IPS Full HD 180Hz 1ms (GtG) NVIDIA® G-SYNC® AMD FreeSync™ HDR10 sRGB 99% HDMI DisplayPort",
+      "img": "https://m.media-amazon.com/images/I/61GElLiaorL._AC_SL1000_.jpg",
+      "priceOrig": 1.299,
+      "priceSale": 1.019,
+      "coupon": "GAMER100OFF ",
+      "couponPct": "R$ 100,00 0FF",
+      "link": "#https://amzn.to/4u3EE5Z",
+      "views": 0,
+      "units": "",
+      "stars": 5,
+      "reviews": 1962
+    },
+    {
+      "id": 5,
+      "emoji": "🖥️",
+      "badge": "VIRAL",
+      "name": "Monitor Gamer LG UltraGear 24",
+      "brand": "LG ULTRAGEAR",
+      "cat": "monitor",
+      "desc": "Monitor Gamer LG UltraGear 27” 27GS60F-B IPS Full HD 180Hz 1ms (GtG) NVIDIA® G-SYNC® AMD FreeSync™ HDR10 sRGB 99% HDMI DisplayPort",
+      "img": "https://m.media-amazon.com/images/I/61GElLiaorL._AC_SL1000_.jpg",
+      "priceOrig": 1199,
+      "priceSale": 834.71,
+      "coupon": "GAMER10 ",
+      "couponPct": "- 10% EXTRA",
+      "link": "https://amzn.to/4dNANDV",
+      "views": 0,
+      "units": "",
+      "stars": 4.5,
+      "reviews": 4259
+    },
+    {
+      "id": 6,
+      "emoji": "📷",
+      "badge": "VIRAL",
+      "name": "Monitor LG UltraGear 27",
+      "brand": "LG ULTRAGEAR",
+      "cat": "monitor",
+      "desc": "Monitor LG UltraGear 27GN750-27\" IPS Full HD, 240Hz, 1ms (GtG), NVIDIA G-Sync, HDMI, USB 3.0 e Ajustes de Inclinação, Preto",
+      "img": "https://m.media-amazon.com/images/I/61bd+vWazsL._AC_SL1200_.jpg",
+      "priceOrig": 2.199,
+      "priceSale": 1.559,
+      "coupon": "",
+      "couponPct": "",
+      "link": "https://amzn.to/4tZtMpw",
+      "views": 0,
+      "units": "",
+      "stars": 4.5,
+      "reviews": 283
+    },
+    {
+      "id": 7,
+      "emoji": "📦",
+      "badge": "VIRAL",
+      "name": "Redragon Kumara Pro V2",
+      "brand": "REDRAGON",
+      "cat": "teclado",
+      "desc": "Teclado Magnético Gamer Redragon Kumara Pro V2 RGB Preto Switch Marrom K552RGB-PRO (PT-BROWN) V2",
+      "img": "https://m.media-amazon.com/images/I/61nvk16RZrL._AC_SL1500_.jpg",
+      "priceOrig": 369,
+      "priceSale": 325,
+      "coupon": "",
+      "couponPct": "",
+      "link": "https://amzn.to/4u15oUF",
+      "views": 0,
+      "units": "",
+      "stars": 4.5,
+      "reviews": 127
+    },
+    {
+      "id": 8,
+      "emoji": "🎙️",
+      "badge": "VIRAL",
+      "name": "Redragon Dark Avenge",
+      "brand": "REDRAGON",
+      "cat": "teclado",
+      "desc": "Teclado Mecânico Redragon Dark Avenger RGB Lunar White Switch Vermelho K568W-RGB",
+      "img": "https://m.media-amazon.com/images/I/51xoetNmlOL._AC_SL1000_.jpg",
+      "priceOrig": 184.9,
+      "priceSale": 175,
+      "coupon": "",
+      "couponPct": "",
+      "link": "https://amzn.to/4nSiguQ",
+      "views": 0,
+      "units": "",
+      "stars": 5,
+      "reviews": 160
+    },
+    {
+      "id": 1779850408100,
+      "emoji": "📦",
+      "badge": "VIRAL",
+      "name": "Redragon Fizz RGB",
+      "brand": "REDRAGON",
+      "cat": "teclado",
+      "desc": "Teclado Magnético Gamer Redragon Fizz RGB Preto 60% Polling Rate 8K Rapid Trigger Switch Linear K617RGB-M",
+      "img": "https://m.media-amazon.com/images/I/61iF9YbMcEL._AC_SL1500_.jpg",
+      "priceOrig": 301.28,
+      "priceSale": 188,
+      "coupon": "",
+      "couponPct": "",
+      "link": "https://amzn.to/4dLjgMr",
+      "views": 0,
+      "units": "",
+      "stars": 5,
+      "reviews": 31
+    }
+  ],
+  "blogs": [
+    {
+      "id": 1,
+      "title": "HyperX Cloud Alpha S: Vale os R$290?",
+      "cat": "Review",
+      "read": "5 min",
+      "desc": "Testamos o headset por 30 dias e chegamos a uma conclusão definitiva.",
+      "img": "",
+      "link": "#",
+      "views": 42891,
+      "date": "2025-05-20"
+    },
+    {
+      "id": 2,
+      "title": "Setup Gamer por R$2.000: Guia Definitivo 2025",
+      "cat": "Guia",
+      "read": "12 min",
+      "desc": "Montamos o melhor setup gamer possível sem estourar o orçamento.",
+      "img": "",
+      "link": "#",
+      "views": 98112,
+      "date": "2025-05-18"
+    },
+    {
+      "id": 3,
+      "title": "10 Melhores Mouses Gamer de 2025",
+      "cat": "Top 10",
+      "read": "8 min",
+      "desc": "Comparamos os top 10 mouses do mercado em todas as faixas de preço.",
+      "img": "",
+      "link": "#",
+      "views": 71440,
+      "date": "2025-05-15"
+    }
+  ],
+  "trends": [
+    {
+      "id": 1,
+      "emoji": "🎮",
+      "name": "Controle Xbox Elite Series 2",
+      "cat": "Controle",
+      "change": "+127%",
+      "link": "#",
+      "badge": "🔥 VIRAL"
+    },
+    {
+      "id": 2,
+      "emoji": "🎧",
+      "name": "HyperX Cloud Alpha S",
+      "cat": "Headset",
+      "change": "+89%",
+      "link": "#",
+      "badge": ""
+    },
+    {
+      "id": 3,
+      "emoji": "🖱️",
+      "name": "Mouse Logitech G502X",
+      "cat": "Mouse",
+      "change": "+63%",
+      "link": "#",
+      "badge": ""
+    },
+    {
+      "id": 4,
+      "emoji": "⌨️",
+      "name": "Teclado Mecânico TKL",
+      "cat": "Teclado",
+      "change": "+41%",
+      "link": "#",
+      "badge": "🆕 NOVO"
+    },
+    {
+      "id": 5,
+      "emoji": "📷",
+      "name": "Webcam StreamCam 1080p",
+      "cat": "Webcam",
+      "change": "+35%",
+      "link": "#",
+      "badge": ""
+    }
+  ],
+  "cupons": [
+    {
+      "id": 1,
+      "code": "DVNET20",
+      "pct": "-20%",
+      "store": "Amazon · Headsets",
+      "desc": "",
+      "exp": "2025-12-31",
+      "status": "ativo"
+    },
+    {
+      "id": 2,
+      "code": "GAMER15",
+      "pct": "-15%",
+      "store": "Amazon · Teclados e Mouses",
+      "desc": "",
+      "exp": "2025-11-30",
+      "status": "ativo"
+    },
+    {
+      "id": 3,
+      "code": "FLASH30",
+      "pct": "-30%",
+      "store": "Amazon · Oferta relâmpago",
+      "desc": "Apenas para a oferta do dia",
+      "exp": "2025-06-30",
+      "status": "ativo"
+    },
+    {
+      "id": 4,
+      "code": "SETUP10",
+      "pct": "-10%",
+      "store": "Amazon · Monitores",
+      "desc": "",
+      "exp": "2025-10-31",
+      "status": "ativo"
+    },
+    {
+      "id": 5,
+      "code": "MIC10",
+      "pct": "-10%",
+      "store": "Amazon · Microfones",
+      "desc": "",
+      "exp": "2025-09-30",
+      "status": "ativo"
+    },
+    {
+      "id": 6,
+      "code": "CHAIR25",
+      "pct": "-25%",
+      "store": "Amazon · Cadeiras Gamer",
+      "desc": "",
+      "exp": "2025-08-31",
+      "status": "ativo"
+    }
+  ],
+  "oferta": {
+    "emoji": "🎮",
+    "name": "Controle Xbox Elite Series 2",
+    "priceOrig": 1499,
+    "priceSale": 569,
+    "coupon": "GAMER20",
+    "couponPct": "-20% extra",
+    "link": "#",
+    "hours": 6,
+    "units": "Apenas 3 restantes!"
+  }
 }
-
-function renderBlog(){
-  const sec=document.getElementById('blog');if(!sec||!DVNET_BLOGS.length)return;
-  let grid=sec.querySelector('.dvnet-blog');if(!grid){grid=document.createElement('div');grid.className='dvnet-blog';grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:0 5%';sec.appendChild(grid);}
-  grid.innerHTML=DVNET_BLOGS.map(b=>`<div style="background:#1a1a2e;border:1px solid #ffffff1a;border-radius:14px;overflow:hidden"><div style="padding:16px"><span style="font-size:10px;font-weight:700;background:#ff4d0020;color:#ff4d00;padding:2px 7px;border-radius:5px">${b.cat.toUpperCase()}</span><div style="font-size:15px;font-weight:700;margin:8px 0 6px;color:#f0f0ff">${b.title}</div>${b.desc?'<div style="font-size:12px;color:#8888aa;margin-bottom:8px">'+b.desc+'</div>':''}<div style="font-size:11px;color:#8888aa">${b.read?'⏱ '+b.read+' · ':''}${b.views?'👁 '+b.views.toLocaleString('pt-BR')+' views':''}</div></div></div>`).join('');
-}
-
-function renderTrending(){
-  const sec=document.getElementById('trending');if(!sec||!DVNET_TRENDS.length)return;
-  let list=sec.querySelector('.dvnet-trending');if(!list){list=document.createElement('div');list.className='dvnet-trending';list.style.cssText='display:flex;flex-direction:column;gap:10px;padding:0 5%';sec.appendChild(list);}
-  list.innerHTML=DVNET_TRENDS.map((t,i)=>`<a href="${t.link||'#'}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:#1a1a2e;border:1px solid #ffffff1a;border-radius:12px;text-decoration:none"><span style="font-size:18px;font-weight:700;color:#ff4d00;width:24px">${String(i+1).padStart(2,'0')}</span><span style="font-size:20px">${t.emoji||'📦'}</span><div style="flex:1"><div style="font-size:14px;font-weight:600;color:#f0f0ff">${t.name}</div>${t.change?'<div style="font-size:12px;color:#00d97e">'+t.change+'</div>':''}</div></a>`).join('');
-}
-
-document.addEventListener('DOMContentLoaded',function(){renderProducts();renderBlog();renderTrending();});
-})();
