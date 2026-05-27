@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DV.NeT — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg:#080810;
+    --bg2:#0f0f1a;
+    --bg3:#16162a;
+    --card:#1a1a2e;
+    --border:#ffffff0f;
+    --border2:#ffffff1a;
+    --accent:#ff4d00;
+    --accent2:#ff7a00;
+    --text:#f0f0ff;
+    --muted:#8888aa;
+    --green:#00d97e;
+    --blue:#3b82f6;
+    --yellow:#fbbf24;
+  }
+  body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;overflow-x:hidden}
+
+  /* ── LOGIN ── */
+  #login-screen{
+    position:fixed;inset:0;background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    z-index:1000;
+  }
+  .login-box{
+    width:420px;padding:48px;
+    background:var(--card);
+    border:1px solid var(--border2);
+    border-radius:20px;
+    position:relative;overflow:hidden;
+  }
+  .login-box::before{
+    content:'';position:absolute;top:-80px;right:-80px;
+    width:200px;height:200px;
+    background:radial-gradient(circle,#ff4d0033 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .login-logo{
+    font-size:28px;font-weight:700;letter-spacing:-1px;
+    margin-bottom:8px;
+  }
+  .login-logo span{color:var(--accent)}
+  .login-sub{color:var(--muted);font-size:14px;margin-bottom:36px}
+  .login-label{font-size:12px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;display:block}
+  .login-input{
+    width:100%;padding:14px 16px;
+    background:var(--bg3);border:1px solid var(--border2);
+    border-radius:10px;color:var(--text);font-family:'Space Grotesk',sans-serif;
+    font-size:15px;outline:none;transition:.2s;
+  }
+  .login-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #ff4d0022}
+  .login-btn{
+    width:100%;padding:14px;margin-top:24px;
+    background:var(--accent);border:none;border-radius:10px;
+    color:#fff;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;
+    cursor:pointer;transition:.2s;
+  }
+  .login-btn:hover{background:var(--accent2);transform:translateY(-1px)}
+  .login-btn:active{transform:translateY(0)}
+  .login-error{
+    display:none;margin-top:12px;padding:10px 14px;
+    background:#ff4d0022;border:1px solid #ff4d0044;
+    border-radius:8px;font-size:13px;color:#ff8888;text-align:center;
+  }
+  .login-hint{margin-top:16px;text-align:center;font-size:12px;color:var(--muted)}
+
+  /* ── LAYOUT ── */
+  #app{display:none;min-height:100vh}
+
+  .sidebar{
+    position:fixed;top:0;left:0;bottom:0;width:240px;
+    background:var(--bg2);border-right:1px solid var(--border);
+    display:flex;flex-direction:column;z-index:100;
+  }
+  .sidebar-logo{
+    padding:24px 20px 20px;border-bottom:1px solid var(--border);
+    font-size:20px;font-weight:700;letter-spacing:-0.5px;
+  }
+  .sidebar-logo span{color:var(--accent)}
+  .sidebar-badge{
+    font-size:9px;font-weight:600;letter-spacing:1px;
+    background:var(--accent);color:#fff;padding:2px 6px;
+    border-radius:4px;margin-left:8px;vertical-align:middle;
+  }
+  .sidebar-nav{flex:1;padding:12px 0;overflow-y:auto}
+  .nav-section{
+    padding:8px 16px 4px;font-size:10px;font-weight:600;
+    letter-spacing:1px;color:var(--muted);text-transform:uppercase;
+  }
+  .nav-item{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 16px;margin:2px 8px;border-radius:10px;
+    font-size:14px;font-weight:500;color:var(--muted);
+    cursor:pointer;transition:.15s;border:none;background:none;width:calc(100% - 16px);text-align:left;
+  }
+  .nav-item:hover{background:var(--bg3);color:var(--text)}
+  .nav-item.active{background:#ff4d0015;color:var(--accent);border:1px solid #ff4d0022}
+  .nav-icon{font-size:17px;width:20px;text-align:center}
+  .nav-badge{
+    margin-left:auto;background:var(--accent);color:#fff;
+    font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
+  }
+  .sidebar-footer{
+    padding:16px;border-top:1px solid var(--border);
+    display:flex;align-items:center;gap:10px;
+  }
+  .user-avatar{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;
+  }
+  .user-info{flex:1}
+  .user-name{font-size:13px;font-weight:600}
+  .user-role{font-size:11px;color:var(--muted)}
+  .logout-btn{
+    padding:6px;background:none;border:none;cursor:pointer;
+    color:var(--muted);font-size:16px;transition:.15s;border-radius:6px;
+  }
+  .logout-btn:hover{background:var(--bg3);color:#ff6666}
+
+  .main{margin-left:240px;min-height:100vh}
+  .topbar{
+    padding:20px 32px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--bg);position:sticky;top:0;z-index:50;
+  }
+  .page-title{font-size:18px;font-weight:700}
+  .page-sub{font-size:13px;color:var(--muted);margin-top:2px}
+  .topbar-right{display:flex;align-items:center;gap:12px}
+  .status-dot{
+    display:flex;align-items:center;gap:6px;
+    font-size:12px;color:var(--green);
+    background:#00d97e15;border:1px solid #00d97e22;
+    padding:6px 12px;border-radius:20px;
+  }
+  .dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  .content{padding:32px}
+
+  /* ── DASHBOARD ── */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+  .stat-card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:14px;padding:20px;position:relative;overflow:hidden;
+    transition:.2s;cursor:default;
+  }
+  .stat-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+  .stat-card::after{
+    content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+    background:var(--accent-c,var(--accent));opacity:.6;
+  }
+  .stat-label{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.3px;margin-bottom:8px}
+  .stat-value{font-size:26px;font-weight:700;letter-spacing:-1px;margin-bottom:4px}
+  .stat-change{font-size:12px;display:flex;align-items:center;gap:4px}
+  .up{color:var(--green)}
+  .down{color:#ff6b6b}
+  .stat-icon{
+    position:absolute;top:16px;right:16px;
+    font-size:28px;opacity:.15;
+  }
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+
+  .panel{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:14px;padding:20px;
+  }
+  .panel-header{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .panel-title{font-size:14px;font-weight:600}
+  .panel-action{
+    font-size:12px;color:var(--accent);background:none;border:none;
+    cursor:pointer;padding:4px 8px;border-radius:6px;transition:.15s;
+  }
+  .panel-action:hover{background:#ff4d0015}
+
+  /* Quick actions */
+  .actions-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+  .action-card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:14px;padding:20px;text-align:center;
+    cursor:pointer;transition:.2s;
+  }
+  .action-card:hover{border-color:var(--accent);background:#ff4d000a;transform:translateY(-2px)}
+  .action-icon{font-size:28px;margin-bottom:10px}
+  .action-label{font-size:13px;font-weight:600;margin-bottom:4px}
+  .action-sub{font-size:11px;color:var(--muted)}
+
+  /* Product list preview */
+  .product-row{
+    display:flex;align-items:center;gap:12px;
+    padding:10px 0;border-bottom:1px solid var(--border);
+  }
+  .product-row:last-child{border-bottom:none}
+  .product-emoji{
+    width:38px;height:38px;background:var(--bg3);border-radius:8px;
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+  }
+  .product-name{font-size:13px;font-weight:600;flex:1}
+  .product-price{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap}
+  .product-badge{
+    font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;
+    background:#00d97e20;color:var(--green);
+  }
+
+  /* Blog preview */
+  .blog-row{
+    display:flex;gap:12px;padding:10px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .blog-row:last-child{border-bottom:none}
+  .blog-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+  .blog-title{font-size:13px;font-weight:500;margin-bottom:4px}
+  .blog-meta{font-size:11px;color:var(--muted)}
+
+  /* Activity feed */
+  .activity-item{
+    display:flex;gap:12px;padding:10px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .activity-item:last-child{border-bottom:none}
+  .activity-icon{
+    width:32px;height:32px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;
+  }
+  .activity-text{font-size:13px;flex:1}
+  .activity-time{font-size:11px;color:var(--muted)}
+
+  /* Pages */
+  .page{display:none}
+  .page.active{display:block}
+
+  /* Empty state for future pages */
+  .coming-soon{
+    text-align:center;padding:80px 20px;
+  }
+  .coming-soon-icon{font-size:64px;margin-bottom:20px;opacity:.5}
+  .coming-soon h2{font-size:20px;font-weight:700;margin-bottom:8px}
+  .coming-soon p{color:var(--muted);font-size:14px}
+  .coming-btn{
+    display:inline-block;margin-top:20px;padding:12px 24px;
+    background:var(--accent);color:#fff;border:none;border-radius:10px;
+    font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
+    cursor:pointer;transition:.2s;
+  }
+  .coming-btn:hover{background:var(--accent2)}
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:24px;right:24px;
+    background:var(--card);border:1px solid var(--green);
+    border-radius:12px;padding:14px 20px;
+    display:flex;align-items:center;gap:10px;
+    font-size:14px;font-weight:500;
+    transform:translateY(80px);opacity:0;
+    transition:.3s cubic-bezier(.34,1.56,.64,1);
+    z-index:9999;
+  }
+  .toast.show{transform:translateY(0);opacity:1}
+  .toast-icon{font-size:18px}
+
+  /* Responsive */
+  @media(max-width:900px){
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .actions-grid{grid-template-columns:repeat(2,1fr)}
+    .grid-2,.grid-3{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">DV<span>.</span>NeT</div>
+    <p class="login-sub">Painel Administrativo — Acesso Restrito</p>
+    <label class="login-label">Senha de acesso</label>
+    <input class="login-input" type="password" id="pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">🔐 Entrar no Admin</button>
+    <div class="login-error" id="login-error">Senha incorreta. Tente novamente.</div>
+    <p class="login-hint">Senha padrão: <b>dvnet2025</b> — mude no código</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      DV<span>.</span>NeT <span class="sidebar-badge">ADMIN</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Principal</div>
+      <button class="nav-item active" onclick="goTo('dashboard',this)">
+        <span class="nav-icon">📊</span> Dashboard
+      </button>
+
+      <div class="nav-section" style="margin-top:8px">Conteúdo</div>
+      <button class="nav-item" onclick="goTo('produtos',this)">
+        <span class="nav-icon">🛒</span> Produtos
+        <span class="nav-badge">8</span>
+      </button>
+      <button class="nav-item" onclick="goTo('blog',this)">
+        <span class="nav-icon">📝</span> Blog & Reviews
+        <span class="nav-badge">3</span>
+      </button>
+      <button class="nav-item" onclick="goTo('trending',this)">
+        <span class="nav-icon">📈</span> Trending
+      </button>
+      <button class="nav-item" onclick="goTo('cupons',this)">
+        <span class="nav-icon">🎟️</span> Cupons
+      </button>
+      <button class="nav-item" onclick="goTo('oferta',this)">
+        <span class="nav-icon">⚡</span> Oferta Relâmpago
+      </button>
+
+      <div class="nav-section" style="margin-top:8px">Site</div>
+      <button class="nav-item" onclick="goTo('exportar',this)">
+        <span class="nav-icon">📤</span> Exportar HTML
+      </button>
+      <button class="nav-item" onclick="window.open('https://dvnet-site.vercel.app','_blank')">
+        <span class="nav-icon">🌐</span> Ver Site
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-avatar">D</div>
+      <div class="user-info">
+        <div class="user-name">DV.NeT</div>
+        <div class="user-role">Administrador</div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()" title="Sair">🚪</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div>
+        <div class="page-title" id="topbar-title">Dashboard</div>
+        <div class="page-sub" id="topbar-sub">Visão geral do DV.NeT</div>
+      </div>
+      <div class="topbar-right">
+        <div class="status-dot">
+          <div class="dot"></div>
+          Site online
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD PAGE -->
+      <div class="page active" id="page-dashboard">
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card" style="--accent-c:#ff4d00">
+            <div class="stat-label">Produtos ativos</div>
+            <div class="stat-value">8</div>
+            <div class="stat-change up">↑ 2 esta semana</div>
+            <div class="stat-icon">🛒</div>
+          </div>
+          <div class="stat-card" style="--accent-c:#3b82f6">
+            <div class="stat-label">Posts no blog</div>
+            <div class="stat-value">3</div>
+            <div class="stat-change up">↑ 1 novo</div>
+            <div class="stat-icon">📝</div>
+          </div>
+          <div class="stat-card" style="--accent-c:#00d97e">
+            <div class="stat-label">Cupons ativos</div>
+            <div class="stat-value">6</div>
+            <div class="stat-change up">✓ Todos válidos</div>
+            <div class="stat-icon">🎟️</div>
+          </div>
+          <div class="stat-card" style="--accent-c:#fbbf24">
+            <div class="stat-label">Trending agora</div>
+            <div class="stat-value">5</div>
+            <div class="stat-change up">🔥 Atualizado</div>
+            <div class="stat-icon">📈</div>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div style="margin-bottom:12px;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">Ações rápidas</div>
+        <div class="actions-grid">
+          <div class="action-card" onclick="goToById('produtos')">
+            <div class="action-icon">🛒</div>
+            <div class="action-label">Editar Produto</div>
+            <div class="action-sub">Preço, foto, link</div>
+          </div>
+          <div class="action-card" onclick="goToById('blog')">
+            <div class="action-icon">📝</div>
+            <div class="action-label">Novo Post</div>
+            <div class="action-sub">Blog & reviews</div>
+          </div>
+          <div class="action-card" onclick="goToById('oferta')">
+            <div class="action-icon">⚡</div>
+            <div class="action-label">Oferta Relâmpago</div>
+            <div class="action-sub">Trocar produto destaque</div>
+          </div>
+          <div class="action-card" onclick="goToById('exportar')">
+            <div class="action-icon">📤</div>
+            <div class="action-label">Exportar Site</div>
+            <div class="action-sub">Gerar HTML atualizado</div>
+          </div>
+        </div>
+
+        <!-- 2 columns -->
+        <div class="grid-2">
+          <!-- Products preview -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">🛒 Produtos em destaque</div>
+              <button class="panel-action" onclick="goToById('produtos')">Ver todos →</button>
+            </div>
+            <div class="product-row">
+              <div class="product-emoji">🎧</div>
+              <div class="product-name">HyperX Cloud Alpha S</div>
+              <span class="product-badge">-55%</span>
+              <div class="product-price">R$289</div>
+            </div>
+            <div class="product-row">
+              <div class="product-emoji">🖱️</div>
+              <div class="product-name">Mouse Logitech G502X</div>
+              <span class="product-badge">-43%</span>
+              <div class="product-price">R$399</div>
+            </div>
+            <div class="product-row">
+              <div class="product-emoji">⌨️</div>
+              <div class="product-name">Teclado Mecânico TKL</div>
+              <span class="product-badge">-44%</span>
+              <div class="product-price">R$249</div>
+            </div>
+            <div class="product-row">
+              <div class="product-emoji">🖥️</div>
+              <div class="product-name">Monitor Curvo 27" 165Hz</div>
+              <span class="product-badge">-35%</span>
+              <div class="product-price">R$1.299</div>
+            </div>
+          </div>
+
+          <!-- Blog preview -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">📝 Últimos posts</div>
+              <button class="panel-action" onclick="goToById('blog')">Gerenciar →</button>
+            </div>
+            <div class="blog-row">
+              <div class="blog-dot" style="background:#ff4d00"></div>
+              <div>
+                <div class="blog-title">HyperX Cloud Alpha S: Vale os R$290?</div>
+                <div class="blog-meta">Review · 42.891 views · Hoje</div>
+              </div>
+            </div>
+            <div class="blog-row">
+              <div class="blog-dot" style="background:#3b82f6"></div>
+              <div>
+                <div class="blog-title">Setup Gamer por R$2.000: Guia Definitivo</div>
+                <div class="blog-meta">Guia · 98.112 views · Ontem</div>
+              </div>
+            </div>
+            <div class="blog-row">
+              <div class="blog-dot" style="background:#00d97e"></div>
+              <div>
+                <div class="blog-title">10 Melhores Mouses Gamer de 2025</div>
+                <div class="blog-meta">Top 10 · 71.440 views · 2 dias</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity / checklist -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">✅ O que você pode fazer aqui</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#ff4d0020;font-size:16px">🛒</div>
+            <div class="activity-text">
+              <div style="font-weight:600;font-size:13px;margin-bottom:2px">Editar produtos</div>
+              <div style="font-size:12px;color:var(--muted)">Trocar foto, nome, preço, desconto, cupom e link de afiliado de cada produto</div>
+            </div>
+            <div style="color:var(--green);font-size:18px">✓</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#3b82f620;font-size:16px">📝</div>
+            <div class="activity-text">
+              <div style="font-weight:600;font-size:13px;margin-bottom:2px">Gerenciar blog</div>
+              <div style="font-size:12px;color:var(--muted)">Criar, editar e remover posts, reviews e guias do blog</div>
+            </div>
+            <div style="color:var(--green);font-size:18px">✓</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#fbbf2420;font-size:16px">📈</div>
+            <div class="activity-text">
+              <div style="font-weight:600;font-size:13px;margin-bottom:2px">Atualizar trending</div>
+              <div style="font-size:12px;color:var(--muted)">Mudar os 5 produtos que aparecem em "Bombando Agora"</div>
+            </div>
+            <div style="color:var(--green);font-size:18px">✓</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#00d97e20;font-size:16px">🎟️</div>
+            <div class="activity-text">
+              <div style="font-weight:600;font-size:13px;margin-bottom:2px">Controlar cupons</div>
+              <div style="font-size:12px;color:var(--muted)">Adicionar, editar e desativar cupons de desconto por produto</div>
+            </div>
+            <div style="color:var(--green);font-size:18px">✓</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon" style="background:#a855f720;font-size:16px">⚡</div>
+            <div class="activity-text">
+              <div style="font-weight:600;font-size:13px;margin-bottom:2px">Oferta relâmpago</div>
+              <div style="font-size:12px;color:var(--muted)">Trocar o produto destaque com countdown no topo da página</div>
+            </div>
+            <div style="color:var(--green);font-size:18px">✓</div>
+          </div>
+          <div class="activity-item" style="border-bottom:none">
+            <div class="activity-icon" style="background:#ff4d0020;font-size:16px">📤</div>
+            <div class="activity-text">
+              <div style="font-weight:600;font-size:13px;margin-bottom:2px">Exportar HTML</div>
+              <div style="font-size:12px;color:var(--muted)">Gera o código atualizado — é só colar no GitHub e o site atualiza sozinho</div>
+            </div>
+            <div style="color:var(--green);font-size:18px">✓</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PRODUTOS PAGE -->
+      <div class="page" id="page-produtos">
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+          <div>
+            <div style="font-size:13px;color:var(--muted)">Total: <b id="prod-count" style="color:var(--text)">0</b> produtos cadastrados</div>
+          </div>
+          <button class="coming-btn" style="margin:0" onclick="openModal()">＋ Novo Produto</button>
+        </div>
+
+        <!-- Product cards grid -->
+        <div id="prod-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px"></div>
+
+      </div>
+      <!-- ══ BLOG PAGE ══ -->
+      <div class="page" id="page-blog">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+          <div style="font-size:13px;color:var(--muted)">Total: <b id="blog-count" style="color:var(--text)">0</b> posts</div>
+          <button class="coming-btn" style="margin:0" onclick="openBlogModal()">＋ Novo Post</button>
+        </div>
+        <div id="blog-list"></div>
+      </div>
+
+      <!-- ══ TRENDING PAGE ══ -->
+      <div class="page" id="page-trending">
+        <div style="margin-bottom:20px;font-size:13px;color:var(--muted)">Os 5 produtos que aparecem em <b style="color:var(--text)">"Bombando Agora"</b> no site. Arraste para reordenar.</div>
+        <div id="trend-list" style="display:flex;flex-direction:column;gap:10px;max-width:640px"></div>
+        <button class="coming-btn" style="margin-top:20px" onclick="openTrendModal()">＋ Adicionar ao Trending</button>
+      </div>
+
+      <!-- ══ CUPONS PAGE ══ -->
+      <div class="page" id="page-cupons">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+          <div style="font-size:13px;color:var(--muted)">Total: <b id="cup-count" style="color:var(--text)">0</b> cupons</div>
+          <button class="coming-btn" style="margin:0" onclick="openCupModal()">＋ Novo Cupom</button>
+        </div>
+        <div id="cup-list" style="display:flex;flex-direction:column;gap:10px;max-width:700px"></div>
+      </div>
+
+      <!-- ══ OFERTA PAGE ══ -->
+      <div class="page" id="page-oferta">
+        <div style="max-width:600px">
+          <div class="panel" style="margin-bottom:20px">
+            <div class="panel-header"><div class="panel-title">⚡ Produto da Oferta Relâmpago</div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div style="grid-column:1/-1"><label class="flabel">Emoji</label><input class="finput" id="of-emoji" placeholder="🎮" maxlength="4"></div>
+              <div style="grid-column:1/-1"><label class="flabel">Nome do produto *</label><input class="finput" id="of-name" placeholder="Controle Xbox Elite Series 2"></div>
+              <div><label class="flabel">Preço original (R$)</label><input class="finput" id="of-orig" type="number" placeholder="1499" oninput="calcOfDesc()"></div>
+              <div><label class="flabel">Preço promocional (R$)</label><input class="finput" id="of-sale" type="number" placeholder="569" oninput="calcOfDesc()"></div>
+              <div style="grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg3);border-radius:10px;border:1px solid var(--border)">
+                <span style="font-size:12px;color:var(--muted)">Desconto:</span>
+                <span id="of-desc-preview" style="font-size:22px;font-weight:700;color:var(--accent)">—</span>
+              </div>
+              <div><label class="flabel">Código do cupom</label><input class="finput" id="of-coupon" placeholder="FLASH30" style="text-transform:uppercase"></div>
+              <div><label class="flabel">Desconto extra do cupom</label><input class="finput" id="of-coupon-pct" placeholder="-30% extra"></div>
+              <div style="grid-column:1/-1"><label class="flabel">🔗 Link de afiliado</label><input class="finput" id="of-link" placeholder="https://amzn.to/..." style="font-family:'JetBrains Mono',monospace;font-size:13px"></div>
+              <div><label class="flabel">⏱️ Timer (horas)</label><input class="finput" id="of-hours" type="number" placeholder="6" min="1" max="72"></div>
+              <div><label class="flabel">Unidades restantes</label><input class="finput" id="of-units" placeholder="Apenas 3 restantes!"></div>
+            </div>
+            <button onclick="saveOferta()" style="width:100%;margin-top:20px;padding:13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--accent)'">💾 Salvar Oferta Relâmpago</button>
+          </div>
+          <!-- preview -->
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title">👁️ Preview</div></div>
+            <div id="of-preview" style="background:var(--bg3);border-radius:12px;padding:20px;text-align:center">
+              <div id="ofp-emoji" style="font-size:48px;margin-bottom:8px">⚡</div>
+              <div id="ofp-name" style="font-size:16px;font-weight:700;margin-bottom:6px">Configure a oferta ao lado</div>
+              <div id="ofp-prices" style="font-size:22px;font-weight:700;color:var(--accent)"></div>
+              <div id="ofp-coupon" style="margin-top:8px;font-size:12px;color:var(--green)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ══ EXPORTAR PAGE ══ -->
+      <div class="page" id="page-exportar">
+
+        <!-- Status bar -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px" id="export-stats">
+          <div class="panel" style="text-align:center;padding:16px">
+            <div style="font-size:24px;font-weight:700;color:var(--accent)" id="ex-prod-n">0</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">Produtos</div>
+          </div>
+          <div class="panel" style="text-align:center;padding:16px">
+            <div style="font-size:24px;font-weight:700;color:var(--blue)" id="ex-blog-n">0</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">Posts</div>
+          </div>
+          <div class="panel" style="text-align:center;padding:16px">
+            <div style="font-size:24px;font-weight:700;color:var(--green)" id="ex-cup-n">0</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">Cupons</div>
+          </div>
+          <div class="panel" style="text-align:center;padding:16px">
+            <div style="font-size:24px;font-weight:700;color:var(--yellow)" id="ex-trend-n">0</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">Trending</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+          <!-- LEFT: main export -->
+          <div>
+            <!-- dvnet-data.js -->
+            <div class="panel" style="margin-bottom:16px">
+              <div class="panel-header">
+                <div class="panel-title">📦 dvnet-data.js</div>
+                <span style="font-size:11px;background:#00d97e20;color:var(--green);padding:3px 8px;border-radius:20px;border:1px solid #00d97e33">Principal</span>
+              </div>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Contém todos os seus produtos, blog, trending e cupons. Você sobe esse arquivo no GitHub e o site atualiza sozinho — sem mexer no HTML.</p>
+              <button onclick="exportDataJS()" style="width:100%;padding:13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--accent)'">
+                📥 Baixar dvnet-data.js
+              </button>
+            </div>
+
+            <!-- category pages -->
+            <div class="panel" style="margin-bottom:16px">
+              <div class="panel-header">
+                <div class="panel-title">📂 Páginas de Categoria</div>
+                <span style="font-size:11px;background:#3b82f620;color:var(--blue);padding:3px 8px;border-radius:20px;border:1px solid #3b82f633">Novo</span>
+              </div>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Gera uma página separada para cada categoria (headsets.html, monitores.html, etc.) com todos os produtos cadastrados e filtros por marca e preço.</p>
+              <div id="cat-btns" style="display:flex;flex-direction:column;gap:8px"></div>
+            </div>
+
+            <!-- backup -->
+            <div class="panel">
+              <div class="panel-header"><div class="panel-title">💾 Backup dos dados</div></div>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Salva todos os seus dados em JSON. Use para restaurar o admin em outro computador ou navegador.</p>
+              <div style="display:flex;gap:8px">
+                <button onclick="exportBackup()" style="flex:1;padding:11px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer">📥 Exportar backup</button>
+                <label style="flex:1;padding:11px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-align:center">
+                  📤 Importar backup
+                  <input type="file" accept=".json" onchange="importBackup(this)" style="display:none">
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: setup guide -->
+          <div class="panel" style="height:fit-content">
+            <div class="panel-header"><div class="panel-title">🚀 Como publicar no site</div></div>
+
+            <!-- step 1 -->
+            <div style="display:flex;gap:12px;margin-bottom:18px">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:4px">Baixe o dvnet-data.js</div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.5">Clique no botão ao lado. Um arquivo será baixado para o seu computador.</div>
+              </div>
+            </div>
+
+            <!-- step 2 - one time only -->
+            <div style="background:#fbbf2410;border:1px solid #fbbf2430;border-radius:10px;padding:12px 14px;margin-bottom:18px">
+              <div style="font-size:11px;font-weight:700;color:var(--yellow);letter-spacing:.5px;margin-bottom:8px">⚡ APENAS NA PRIMEIRA VEZ</div>
+              <div style="display:flex;gap:12px">
+                <div style="width:28px;height:28px;border-radius:50%;background:var(--yellow);color:#000;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+                <div>
+                  <div style="font-size:13px;font-weight:600;margin-bottom:4px">Adicione 1 linha no index.html</div>
+                  <div style="font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5">Cole este código logo antes do <code style="background:var(--bg3);padding:1px 4px;border-radius:4px;font-size:11px">&lt;/body&gt;</code> no seu index.html:</div>
+                  <div style="background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green);position:relative">
+                    &lt;script src="dvnet-data.js"&gt;&lt;/script&gt;
+                    <button onclick="navigator.clipboard.writeText('<script src=\'dvnet-data.js\'></script>');showToast('Copiado! ✅')" style="position:absolute;top:6px;right:6px;background:var(--bg3);border:1px solid var(--border2);border-radius:5px;padding:3px 7px;font-size:10px;color:var(--muted);cursor:pointer">Copiar</button>
+                  </div>
+                  <div style="font-size:11px;color:var(--muted);margin-top:6px">Só faz isso uma vez. Da próxima, pula direto pro passo 3.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- step 3 -->
+            <div style="display:flex;gap:12px;margin-bottom:18px">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:4px">Sobe no GitHub</div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.5">Arraste o arquivo <code style="background:var(--bg3);padding:1px 4px;border-radius:4px;font-size:11px">dvnet-data.js</code> para o seu repositório no GitHub. Se já existir, confirme a substituição.</div>
+              </div>
+            </div>
+
+            <!-- step 4 -->
+            <div style="display:flex;gap:12px">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#000;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">✓</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:4px">Pronto! Site atualizado</div>
+                <div style="font-size:12px;color:var(--muted);line-height:1.5">A Vercel detecta a mudança e publica em menos de 1 minuto. Seus produtos, preços e links já aparecem no site.</div>
+              </div>
+            </div>
+
+            <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+              <button onclick="window.open('https://github.com/Cugula29/dvnet-site','_blank')" style="width:100%;padding:11px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">
+                🐙 Abrir repositório no GitHub
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- BLOG MODAL -->
+<div id="blog-modal" style="display:none;position:fixed;inset:0;background:#000000bb;z-index:500;overflow-y:auto;padding:40px 20px" onclick="if(event.target===this)closeBlogModal()">
+  <div style="max-width:580px;margin:0 auto;background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:32px;position:relative">
+    <button onclick="closeBlogModal()" style="position:absolute;top:16px;right:16px;background:var(--bg3);border:none;color:var(--muted);width:32px;height:32px;border-radius:8px;font-size:16px;cursor:pointer">✕</button>
+    <h2 id="blog-modal-title" style="font-size:18px;font-weight:700;margin-bottom:24px">Novo Post</h2>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div><label class="flabel">Título *</label><input class="finput" id="b-title" placeholder="HyperX Cloud Alpha S: Vale os R$290?"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="flabel">Categoria</label>
+          <select class="finput" id="b-cat">
+            <option value="Review">📋 Review</option><option value="Guia">📖 Guia</option>
+            <option value="Top 10">🏆 Top 10</option><option value="Comparativo">⚖️ Comparativo</option><option value="Notícia">📰 Notícia</option>
+          </select>
+        </div>
+        <div><label class="flabel">Tempo de leitura</label><input class="finput" id="b-read" placeholder="5 min"></div>
+      </div>
+      <div><label class="flabel">Descrição / Resumo</label><textarea class="finput" id="b-desc" rows="3" placeholder="Testamos o headset por 30 dias..."></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="flabel">Views</label><input class="finput" id="b-views" type="number" placeholder="42891"></div>
+        <div><label class="flabel">Data</label><input class="finput" id="b-date" type="date"></div>
+      </div>
+      <div><label class="flabel">URL da imagem</label><input class="finput" id="b-img" placeholder="https://..."></div>
+      <div><label class="flabel">🔗 Link do post</label><input class="finput" id="b-link" placeholder="https://..." style="font-family:'JetBrains Mono',monospace;font-size:13px"></div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:24px">
+      <button onclick="closeBlogModal()" style="flex:1;padding:13px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:14px;cursor:pointer">Cancelar</button>
+      <button onclick="saveBlog()" style="flex:2;padding:13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer">💾 Salvar Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRENDING MODAL -->
+<div id="trend-modal" style="display:none;position:fixed;inset:0;background:#000000bb;z-index:500;overflow-y:auto;padding:40px 20px" onclick="if(event.target===this)closeTrendModal()">
+  <div style="max-width:480px;margin:0 auto;background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:32px;position:relative">
+    <button onclick="closeTrendModal()" style="position:absolute;top:16px;right:16px;background:var(--bg3);border:none;color:var(--muted);width:32px;height:32px;border-radius:8px;font-size:16px;cursor:pointer">✕</button>
+    <h2 id="trend-modal-title" style="font-size:18px;font-weight:700;margin-bottom:24px">Adicionar ao Trending</h2>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:80px 1fr;gap:14px">
+        <div><label class="flabel">Emoji</label><input class="finput" id="t-emoji" placeholder="🎮" maxlength="4"></div>
+        <div><label class="flabel">Nome *</label><input class="finput" id="t-name" placeholder="Controle Xbox Elite"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="flabel">Categoria</label><input class="finput" id="t-cat" placeholder="Controle"></div>
+        <div><label class="flabel">Variação</label><input class="finput" id="t-change" placeholder="+127%"></div>
+      </div>
+      <div><label class="flabel">🔗 Link de afiliado</label><input class="finput" id="t-link" placeholder="https://amzn.to/..." style="font-family:'JetBrains Mono',monospace;font-size:13px"></div>
+      <div><label class="flabel">Badge</label>
+        <select class="finput" id="t-badge"><option value="">Nenhum</option><option value="🔥 VIRAL">🔥 VIRAL</option><option value="🆕 NOVO">🆕 NOVO</option><option value="⭐ TOP">⭐ TOP</option></select>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:24px">
+      <button onclick="closeTrendModal()" style="flex:1;padding:13px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:14px;cursor:pointer">Cancelar</button>
+      <button onclick="saveTrend()" style="flex:2;padding:13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- CUPOM MODAL -->
+<div id="cup-modal" style="display:none;position:fixed;inset:0;background:#000000bb;z-index:500;overflow-y:auto;padding:40px 20px" onclick="if(event.target===this)closeCupModal()">
+  <div style="max-width:480px;margin:0 auto;background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:32px;position:relative">
+    <button onclick="closeCupModal()" style="position:absolute;top:16px;right:16px;background:var(--bg3);border:none;color:var(--muted);width:32px;height:32px;border-radius:8px;font-size:16px;cursor:pointer">✕</button>
+    <h2 id="cup-modal-title" style="font-size:18px;font-weight:700;margin-bottom:24px">Novo Cupom</h2>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="flabel">Código *</label><input class="finput" id="c-code" placeholder="DVNET20" style="text-transform:uppercase;font-weight:700;letter-spacing:1px"></div>
+        <div><label class="flabel">Desconto</label><input class="finput" id="c-pct" placeholder="-20%"></div>
+      </div>
+      <div><label class="flabel">Produto / Loja</label><input class="finput" id="c-store" placeholder="Amazon · Todos os produtos gamer"></div>
+      <div><label class="flabel">Descrição</label><input class="finput" id="c-desc" placeholder="Válido para headsets"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="flabel">Validade</label><input class="finput" id="c-exp" type="date"></div>
+        <div><label class="flabel">Status</label>
+          <select class="finput" id="c-status"><option value="ativo">✅ Ativo</option><option value="inativo">❌ Inativo</option></select>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:24px">
+      <button onclick="closeCupModal()" style="flex:1;padding:13px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:14px;cursor:pointer">Cancelar</button>
+      <button onclick="saveCupom()" style="flex:2;padding:13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer">💾 Salvar Cupom</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toast-msg">Salvo com sucesso!</span>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div id="modal-overlay" style="display:none;position:fixed;inset:0;background:#000000bb;z-index:500;overflow-y:auto;padding:40px 20px" onclick="closeModalOutside(event)">
+  <div id="modal-box" style="max-width:620px;margin:0 auto;background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:32px;position:relative">
+    <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:var(--bg3);border:none;color:var(--muted);width:32px;height:32px;border-radius:8px;font-size:16px;cursor:pointer;transition:.15s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--muted)'">✕</button>
+    <h2 id="modal-title" style="font-size:18px;font-weight:700;margin-bottom:24px">Novo Produto</h2>
+
+    <input type="hidden" id="edit-id">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <!-- emoji -->
+      <div style="grid-column:1/2">
+        <label class="flabel">Emoji do produto</label>
+        <input class="finput" id="f-emoji" placeholder="🎧" maxlength="4">
+      </div>
+      <!-- badge -->
+      <div>
+        <label class="flabel">Badge</label>
+        <select class="finput" id="f-badge">
+          <option value="">Nenhum</option>
+          <option value="VIRAL">🔥 VIRAL</option>
+          <option value="HOT">🔴 HOT</option>
+          <option value="NOVO">🆕 NOVO</option>
+          <option value="TOP">⭐ TOP</option>
+        </select>
+      </div>
+      <!-- name -->
+      <div style="grid-column:1/-1">
+        <label class="flabel">Nome do produto *</label>
+        <input class="finput" id="f-name" placeholder="HyperX Cloud Alpha S">
+      </div>
+      <!-- brand -->
+      <div>
+        <label class="flabel">Marca / Brand</label>
+        <input class="finput" id="f-brand" placeholder="HyperX">
+      </div>
+      <!-- category -->
+      <div>
+        <label class="flabel">Categoria</label>
+        <select class="finput" id="f-cat">
+          <option value="headset">🎧 Headset</option>
+          <option value="mouse">🖱️ Mouse</option>
+          <option value="teclado">⌨️ Teclado</option>
+          <option value="monitor">🖥️ Monitor</option>
+          <option value="cadeira">💺 Cadeira</option>
+          <option value="webcam">📷 Webcam</option>
+          <option value="microfone">🎙️ Microfone</option>
+          <option value="controle">🎮 Controle</option>
+          <option value="iluminacao">💡 Iluminação</option>
+          <option value="outro">📦 Outro</option>
+        </select>
+      </div>
+      <!-- desc -->
+      <div style="grid-column:1/-1">
+        <label class="flabel">Descrição curta</label>
+        <textarea class="finput" id="f-desc" rows="2" placeholder="Som surround 7.1, microfone com cancelamento de ruído..."></textarea>
+      </div>
+      <!-- image url -->
+      <div style="grid-column:1/-1">
+        <label class="flabel">URL da imagem (opcional)</label>
+        <div style="display:flex;gap:8px">
+          <input class="finput" id="f-img" placeholder="https://..." style="flex:1" oninput="previewImg()">
+          <div id="img-preview" style="width:52px;height:52px;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;overflow:hidden">
+            <span id="img-prev-emoji">📦</span>
+            <img id="img-prev-img" style="display:none;width:100%;height:100%;object-fit:cover">
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Cole o link direto da imagem (Amazon, Imgur, etc.). Se vazio, usa o emoji.</div>
+      </div>
+      <!-- prices -->
+      <div>
+        <label class="flabel">Preço original (R$) *</label>
+        <input class="finput" id="f-price-orig" type="number" placeholder="649.00" oninput="calcDesc()">
+      </div>
+      <div>
+        <label class="flabel">Preço promocional (R$) *</label>
+        <input class="finput" id="f-price-sale" type="number" placeholder="289.90" oninput="calcDesc()">
+      </div>
+      <!-- discount preview -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg3);border-radius:10px;border:1px solid var(--border)">
+        <span style="font-size:12px;color:var(--muted)">Desconto calculado:</span>
+        <span id="desc-preview" style="font-size:18px;font-weight:700;color:var(--accent)">—</span>
+        <span style="font-size:12px;color:var(--muted)">de economia</span>
+      </div>
+      <!-- coupon -->
+      <div>
+        <label class="flabel">Código do cupom</label>
+        <input class="finput" id="f-coupon" placeholder="DVNET20" style="text-transform:uppercase">
+      </div>
+      <div>
+        <label class="flabel">Desconto extra do cupom</label>
+        <input class="finput" id="f-coupon-pct" placeholder="-20% extra">
+      </div>
+      <!-- affiliate link -->
+      <div style="grid-column:1/-1">
+        <label class="flabel">🔗 Link de afiliado *</label>
+        <input class="finput" id="f-link" placeholder="https://amzn.to/..." style="font-family:'JetBrains Mono',monospace;font-size:13px">
+      </div>
+      <!-- social proof -->
+      <div>
+        <label class="flabel">Pessoas vendo agora</label>
+        <input class="finput" id="f-views" type="number" placeholder="68">
+      </div>
+      <div>
+        <label class="flabel">Unidades restantes</label>
+        <input class="finput" id="f-units" placeholder="7 unidades">
+      </div>
+      <!-- stars -->
+      <div>
+        <label class="flabel">Avaliação (estrelas)</label>
+        <select class="finput" id="f-stars">
+          <option value="5">⭐⭐⭐⭐⭐ 5.0</option>
+          <option value="4.5">⭐⭐⭐⭐½ 4.5</option>
+          <option value="4">⭐⭐⭐⭐ 4.0</option>
+        </select>
+      </div>
+      <div>
+        <label class="flabel">Nº de avaliações</label>
+        <input class="finput" id="f-reviews" type="number" placeholder="1247">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:28px">
+      <button onclick="closeModal()" style="flex:1;padding:13px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:14px;cursor:pointer">Cancelar</button>
+      <button onclick="saveProduct()" style="flex:2;padding:13px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.2s" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--accent)'">💾 Salvar Produto</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.flabel{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.finput{width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:14px;outline:none;transition:.2s;resize:vertical}
+.finput:focus{border-color:var(--accent);box-shadow:0 0 0 3px #ff4d0018}
+.finput option{background:var(--bg3)}
+
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:.2s}
+.pcard:hover{border-color:var(--border2);transform:translateY(-2px)}
+.pcard-img{height:120px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:52px;position:relative}
+.pcard-img img{width:100%;height:100%;object-fit:cover}
+.pcard-badge{position:absolute;top:10px;left:10px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--accent);color:#fff;letter-spacing:.5px}
+.pcard-body{padding:14px}
+.pcard-brand{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.pcard-name{font-size:14px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.pcard-prices{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.pcard-sale{font-size:20px;font-weight:700;color:var(--accent)}
+.pcard-orig{font-size:12px;color:var(--muted);text-decoration:line-through}
+.pcard-disc{font-size:11px;font-weight:700;background:#ff4d0020;color:var(--accent);padding:2px 6px;border-radius:5px}
+.pcard-coupon{font-size:11px;background:#00d97e15;color:var(--green);padding:4px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:4px;margin-bottom:8px}
+.pcard-link{font-size:11px;color:var(--blue);background:#3b82f615;padding:4px 8px;border-radius:6px;word-break:break-all;display:block;margin-bottom:10px;font-family:'JetBrains Mono',monospace}
+.pcard-actions{display:flex;gap:8px}
+.pbtn{flex:1;padding:8px;border:none;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:.15s}
+.pbtn-edit{background:#3b82f620;color:var(--blue)}
+.pbtn-edit:hover{background:#3b82f635}
+.pbtn-del{background:#ff4d0020;color:var(--accent)}
+.pbtn-del:hover{background:#ff4d0035}
+</style>
+
+<script>
+const PASS = 'dvnet2025';
+const titles = {
+  dashboard:['Dashboard','Visão geral do DV.NeT'],
+  produtos:['Produtos','Editar produtos, preços e links de afiliado'],
+  blog:['Blog & Reviews','Gerenciar posts e artigos'],
+  trending:['Trending','Produtos em alta no momento'],
+  cupons:['Cupons','Gerenciar cupons de desconto'],
+  oferta:['Oferta Relâmpago','Produto destaque com countdown'],
+  exportar:['Exportar HTML','Gerar código atualizado do site']
+};
+
+function doLogin(){
+  const v = document.getElementById('pw').value;
+  if(v===PASS){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    localStorage.setItem('dvnet_admin','1');
+  } else {
+    document.getElementById('login-error').style.display='block';
+    document.getElementById('pw').value='';
+    document.getElementById('pw').focus();
+  }
+}
+
+function doLogout(){
+  localStorage.removeItem('dvnet_admin');
+  location.reload();
+}
+
+function goTo(id, btn){
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(titles[id]){
+    document.getElementById('topbar-title').textContent=titles[id][0];
+    document.getElementById('topbar-sub').textContent=titles[id][1];
+  }
+  if(id==='produtos') renderProducts();
+  if(id==='blog') renderBlog();
+  if(id==='trending') renderTrending();
+  if(id==='cupons') renderCupons();
+  if(id==='oferta') loadOferta();
+  if(id==='exportar') loadExportPage();
+}
+
+function goToById(id){
+  const btn = [...document.querySelectorAll('.nav-item')]
+    .find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+id+"'"));
+  goTo(id, btn);
+}
+
+function showToast(msg='Salvo com sucesso!'){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── PRODUCT DATA ──
+let products = JSON.parse(localStorage.getItem('dvnet_products')||'null') || [
+  {id:1,emoji:'🎧',name:'HEADSET GAMER ALPHA S',brand:'HyperX',cat:'headset',desc:'Som surround 7.1 virtual, microfone com cancelamento de ruído, conforto premium.',img:'',badge:'VIRAL',priceOrig:649,priceSale:289.90,coupon:'DVNET20',couponPct:'-20% EXTRA',link:'#',views:68,units:'7 unidades',stars:5,reviews:1247},
+  {id:2,emoji:'🖱️',name:'Mouse Gamer Logitech G502X',brand:'Logitech',cat:'mouse',desc:'25K DPI · Wireless · 89g',img:'',badge:'HOT',priceOrig:699,priceSale:399.90,coupon:'',couponPct:'',link:'#',views:23,units:'Estoque alto',stars:5,reviews:892},
+  {id:3,emoji:'⌨️',name:'Teclado Mecânico TKL RGB',brand:'',cat:'teclado',desc:'Switch Red · PBT Doubleshot',img:'',badge:'',priceOrig:449,priceSale:249.90,coupon:'',couponPct:'',link:'#',views:15,units:'',stars:4.5,reviews:341},
+  {id:4,emoji:'🖥️',name:'Monitor Curvo 27" 165Hz',brand:'',cat:'monitor',desc:'QHD 2K · 1ms · FreeSync',img:'',badge:'',priceOrig:1999,priceSale:1299.90,coupon:'',couponPct:'',link:'#',views:41,units:'',stars:5,reviews:654},
+  {id:5,emoji:'💺',name:'Cadeira Gamer DXRacer Elite',brand:'DXRacer',cat:'cadeira',desc:'Couro Premium · Lombar 4D',img:'',badge:'',priceOrig:1899,priceSale:1099,coupon:'',couponPct:'',link:'#',views:12,units:'',stars:4.5,reviews:289},
+  {id:6,emoji:'📷',name:'Webcam StreamCam 1080p 60fps',brand:'Logitech',cat:'webcam',desc:'Ideal para lives e home office',img:'',badge:'HOT',priceOrig:599,priceSale:359,coupon:'DVNET10',couponPct:'-10% extra',link:'#',views:23,units:'12 unid.',stars:5,reviews:1247},
+  {id:7,emoji:'🎮',name:'Controle Xbox Elite Series 2',brand:'Xbox',cat:'controle',desc:'Botões traseiros · Trigger lock · Wireless',img:'',badge:'VIRAL',priceOrig:1499,priceSale:569,coupon:'GAMER20',couponPct:'-20% extra',link:'#',views:87,units:'3 unid.',stars:5,reviews:2341},
+  {id:8,emoji:'🎙️',name:'Microfone Condensador USB Pro',brand:'Blue Yeti',cat:'microfone',desc:'Cardioide · Plug & Play · 48kHz',img:'',badge:'',priceOrig:1099,priceSale:604,coupon:'MIC10',couponPct:'-10% extra',link:'#',views:15,units:'Estoque alto',stars:5,reviews:3102}
+];
+let editingId=null;
+
+function saveToLS(){ localStorage.setItem('dvnet_products',JSON.stringify(products)); }
+
+function renderProducts(){
+  const grid=document.getElementById('prod-grid');
+  document.getElementById('prod-count').textContent=products.length;
+  if(!products.length){ grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--muted)">Nenhum produto cadastrado.</div>'; return; }
+  grid.innerHTML=products.map(p=>{
+    const disc=p.priceOrig>0?Math.round((1-(p.priceSale/p.priceOrig))*100):0;
+    const imgHtml=p.img
+      ?`<img src="${p.img}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
+      :`<span>${p.emoji||'📦'}</span>`;
+    return `<div class="pcard">
+      <div class="pcard-img">${imgHtml}
+        ${p.badge?`<span class="pcard-badge">${p.badge}</span>`:''}
+        ${disc?`<span style="position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 7px;border-radius:6px;background:#00d97e;color:#000">-${disc}%</span>`:''}
+      </div>
+      <div class="pcard-body">
+        ${p.brand?`<div class="pcard-brand">${p.brand}</div>`:''}
+        <div class="pcard-name">${p.name}</div>
+        <div class="pcard-prices">
+          <span class="pcard-sale">R$${(+p.priceSale).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+          ${p.priceOrig?`<span class="pcard-orig">R$${(+p.priceOrig).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>`:''}
+          ${disc?`<span class="pcard-disc">-${disc}%</span>`:''}
+        </div>
+        ${p.coupon?`<div class="pcard-coupon">🎟️ <b>${p.coupon}</b> ${p.couponPct}</div>`:''}
+        <div class="pcard-link">${p.link&&p.link!='#'?'🔗 '+p.link.substring(0,48)+(p.link.length>48?'...':''):'⚠️ Link não configurado'}</div>
+        <div class="pcard-actions">
+          <button class="pbtn pbtn-edit" onclick="openModal(${p.id})">✏️ Editar</button>
+          <button class="pbtn pbtn-del" onclick="deleteProduct(${p.id})">🗑️ Excluir</button>
+        </div>
+      </div></div>`;
+  }).join('');
+}
+
+function openModal(id=null){
+  editingId=id;
+  document.getElementById('modal-title').textContent=id?'Editar Produto':'Novo Produto';
+  if(id){
+    const p=products.find(x=>x.id===id);
+    document.getElementById('f-emoji').value=p.emoji||'';
+    document.getElementById('f-badge').value=p.badge||'';
+    document.getElementById('f-name').value=p.name||'';
+    document.getElementById('f-brand').value=p.brand||'';
+    document.getElementById('f-cat').value=p.cat||'outro';
+    document.getElementById('f-desc').value=p.desc||'';
+    document.getElementById('f-img').value=p.img||'';
+    document.getElementById('f-price-orig').value=p.priceOrig||'';
+    document.getElementById('f-price-sale').value=p.priceSale||'';
+    document.getElementById('f-coupon').value=p.coupon||'';
+    document.getElementById('f-coupon-pct').value=p.couponPct||'';
+    document.getElementById('f-link').value=p.link||'';
+    document.getElementById('f-views').value=p.views||'';
+    document.getElementById('f-units').value=p.units||'';
+    document.getElementById('f-stars').value=p.stars||5;
+    document.getElementById('f-reviews').value=p.reviews||'';
+    previewImg(); calcDesc();
+  } else {
+    ['f-emoji','f-name','f-brand','f-desc','f-img','f-price-orig','f-price-sale','f-coupon','f-coupon-pct','f-link','f-views','f-units','f-reviews'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('f-badge').value='';
+    document.getElementById('f-cat').value='headset';
+    document.getElementById('f-stars').value='5';
+    document.getElementById('desc-preview').textContent='—';
+    document.getElementById('img-prev-emoji').style.display='';
+    document.getElementById('img-prev-img').style.display='none';
+    document.getElementById('img-prev-emoji').textContent='📦';
+  }
+  document.getElementById('modal-overlay').style.display='block';
+}
+
+function deleteProduct(id){
+  if(!confirm('Excluir este produto?'))return;
+  products=products.filter(p=>p.id!==id);
+  saveToLS(); renderProducts(); showToast('Produto excluído!');
+}
+
+function closeModal(){ document.getElementById('modal-overlay').style.display='none'; }
+function closeModalOutside(e){ if(e.target===document.getElementById('modal-overlay'))closeModal(); }
+
+function saveProduct(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){alert('Nome do produto é obrigatório!');return;}
+  const p={
+    id:editingId||Date.now(),
+    emoji:document.getElementById('f-emoji').value||'📦',
+    badge:document.getElementById('f-badge').value,
+    name, brand:document.getElementById('f-brand').value,
+    cat:document.getElementById('f-cat').value,
+    desc:document.getElementById('f-desc').value,
+    img:document.getElementById('f-img').value.trim(),
+    priceOrig:parseFloat(document.getElementById('f-price-orig').value)||0,
+    priceSale:parseFloat(document.getElementById('f-price-sale').value)||0,
+    coupon:document.getElementById('f-coupon').value.toUpperCase(),
+    couponPct:document.getElementById('f-coupon-pct').value,
+    link:document.getElementById('f-link').value.trim()||'#',
+    views:parseInt(document.getElementById('f-views').value)||0,
+    units:document.getElementById('f-units').value,
+    stars:parseFloat(document.getElementById('f-stars').value)||5,
+    reviews:parseInt(document.getElementById('f-reviews').value)||0
+  };
+  if(editingId){products=products.map(x=>x.id===editingId?p:x);}
+  else{products.push(p);}
+  saveToLS(); renderProducts(); closeModal();
+  showToast(editingId?'Produto atualizado! ✅':'Produto adicionado! ✅');
+}
+
+function calcDesc(){
+  const orig=parseFloat(document.getElementById('f-price-orig').value)||0;
+  const sale=parseFloat(document.getElementById('f-price-sale').value)||0;
+  const el=document.getElementById('desc-preview');
+  if(orig>0&&sale>0&&orig>sale){const d=Math.round((1-(sale/orig))*100);el.textContent='-'+d+'%';el.style.color=d>=50?'var(--green)':'var(--accent)';}
+  else el.textContent='—';
+}
+
+function previewImg(){
+  const url=document.getElementById('f-img').value.trim();
+  const emoji=document.getElementById('f-emoji').value||'📦';
+  const eEl=document.getElementById('img-prev-emoji');
+  const iEl=document.getElementById('img-prev-img');
+  if(url){iEl.src=url;iEl.style.display='block';eEl.style.display='none';iEl.onerror=()=>{iEl.style.display='none';eEl.style.display='';eEl.textContent=emoji;};}
+  else{iEl.style.display='none';eEl.style.display='';eEl.textContent=emoji;}
+}
+
+
+// ── BLOG ──
+let blogs = JSON.parse(localStorage.getItem('dvnet_blogs')||'null') || [
+  {id:1,title:'HyperX Cloud Alpha S: Vale os R$290?',cat:'Review',read:'5 min',desc:'Testamos o headset por 30 dias e chegamos a uma conclusão definitiva.',img:'',link:'#',views:42891,date:'2025-05-20'},
+  {id:2,title:'Setup Gamer por R$2.000: Guia Definitivo 2025',cat:'Guia',read:'12 min',desc:'Montamos o melhor setup gamer possível sem estourar o orçamento.',img:'',link:'#',views:98112,date:'2025-05-18'},
+  {id:3,title:'10 Melhores Mouses Gamer de 2025',cat:'Top 10',read:'8 min',desc:'Comparamos os top 10 mouses do mercado em todas as faixas de preço.',img:'',link:'#',views:71440,date:'2025-05-15'}
+];
+let editingBlogId=null;
+function saveBlogsLS(){ localStorage.setItem('dvnet_blogs',JSON.stringify(blogs)); }
+
+function renderBlog(){
+  document.getElementById('blog-count').textContent=blogs.length;
+  const el=document.getElementById('blog-list');
+  if(!blogs.length){el.innerHTML='<div style="text-align:center;padding:60px;color:var(--muted)">Nenhum post. Clique em "+ Novo Post".</div>';return;}
+  el.innerHTML=blogs.map(b=>`
+    <div class="panel" style="display:flex;align-items:center;gap:16px;padding:16px 20px">
+      <div style="width:44px;height:44px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
+        ${b.cat==='Review'?'📋':b.cat==='Guia'?'📖':b.cat==='Top 10'?'🏆':b.cat==='Comparativo'?'⚖️':'📰'}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:14px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${b.title}</div>
+        <div style="font-size:12px;color:var(--muted)">${b.cat} · ${b.read} · ${b.views?b.views.toLocaleString('pt-BR')+' views':''} · ${b.date||''}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="pbtn pbtn-edit" style="padding:7px 12px" onclick="openBlogModal(${b.id})">✏️ Editar</button>
+        <button class="pbtn pbtn-del" style="padding:7px 12px" onclick="deleteBlog(${b.id})">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function openBlogModal(id=null){
+  editingBlogId=id;
+  document.getElementById('blog-modal-title').textContent=id?'Editar Post':'Novo Post';
+  if(id){
+    const b=blogs.find(x=>x.id===id);
+    document.getElementById('b-title').value=b.title||'';
+    document.getElementById('b-cat').value=b.cat||'Review';
+    document.getElementById('b-read').value=b.read||'';
+    document.getElementById('b-desc').value=b.desc||'';
+    document.getElementById('b-views').value=b.views||'';
+    document.getElementById('b-date').value=b.date||'';
+    document.getElementById('b-img').value=b.img||'';
+    document.getElementById('b-link').value=b.link||'';
+  } else {
+    ['b-title','b-read','b-desc','b-views','b-date','b-img','b-link'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('b-cat').value='Review';
+  }
+  document.getElementById('blog-modal').style.display='block';
+}
+function closeBlogModal(){ document.getElementById('blog-modal').style.display='none'; }
+function saveBlog(){
+  const title=document.getElementById('b-title').value.trim();
+  if(!title){alert('Título obrigatório!');return;}
+  const b={id:editingBlogId||Date.now(),title,cat:document.getElementById('b-cat').value,read:document.getElementById('b-read').value,desc:document.getElementById('b-desc').value,views:parseInt(document.getElementById('b-views').value)||0,date:document.getElementById('b-date').value,img:document.getElementById('b-img').value,link:document.getElementById('b-link').value||'#'};
+  if(editingBlogId){blogs=blogs.map(x=>x.id===editingBlogId?b:x);}else{blogs.push(b);}
+  saveBlogsLS();renderBlog();closeBlogModal();showToast(editingBlogId?'Post atualizado! ✅':'Post criado! ✅');
+}
+function deleteBlog(id){if(!confirm('Excluir este post?'))return;blogs=blogs.filter(x=>x.id!==id);saveBlogsLS();renderBlog();showToast('Post excluído!');}
+
+// ── TRENDING ──
+let trends = JSON.parse(localStorage.getItem('dvnet_trends')||'null') || [
+  {id:1,emoji:'🎮',name:'Controle Xbox Elite Series 2',cat:'Controle',change:'+127%',link:'#',badge:'🔥 VIRAL'},
+  {id:2,emoji:'🎧',name:'HyperX Cloud Alpha S',cat:'Headset',change:'+89%',link:'#',badge:''},
+  {id:3,emoji:'🖱️',name:'Mouse Logitech G502X',cat:'Mouse',change:'+63%',link:'#',badge:''},
+  {id:4,emoji:'⌨️',name:'Teclado Mecânico TKL',cat:'Teclado',change:'+41%',link:'#',badge:'🆕 NOVO'},
+  {id:5,emoji:'📷',name:'Webcam StreamCam 1080p',cat:'Webcam',change:'+35%',link:'#',badge:''}
+];
+let editingTrendId=null;
+function saveTrendsLS(){ localStorage.setItem('dvnet_trends',JSON.stringify(trends)); }
+
+function renderTrending(){
+  const el=document.getElementById('trend-list');
+  if(!trends.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">Nenhum item. Adicione produtos ao trending.</div>';return;}
+  el.innerHTML=trends.map((t,i)=>`
+    <div class="panel" style="display:flex;align-items:center;gap:14px;padding:14px 18px">
+      <div style="font-size:22px;width:36px;text-align:center;flex-shrink:0">${t.emoji||'📦'}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:14px;font-weight:600">${t.name} ${t.badge?'<span style="font-size:10px;background:var(--accent);color:#fff;padding:1px 5px;border-radius:4px;margin-left:4px">'+t.badge+'</span>':''}</div>
+        <div style="font-size:12px;color:var(--muted)">${t.cat||''} <span style="color:var(--green);font-weight:600">${t.change||''}</span></div>
+      </div>
+      <div style="display:flex;gap:6px;flex-shrink:0">
+        ${i>0?`<button class="pbtn" style="padding:6px 8px;background:var(--bg3);color:var(--muted)" onclick="moveTrend(${t.id},-1)">↑</button>`:'<div style="width:34px"></div>'}
+        ${i<trends.length-1?`<button class="pbtn" style="padding:6px 8px;background:var(--bg3);color:var(--muted)" onclick="moveTrend(${t.id},1)">↓</button>`:'<div style="width:34px"></div>'}
+        <button class="pbtn pbtn-edit" style="padding:6px 10px" onclick="openTrendModal(${t.id})">✏️</button>
+        <button class="pbtn pbtn-del" style="padding:6px 10px" onclick="deleteTrend(${t.id})">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function moveTrend(id,dir){
+  const i=trends.findIndex(x=>x.id===id);
+  if(i+dir<0||i+dir>=trends.length)return;
+  [trends[i],trends[i+dir]]=[trends[i+dir],trends[i]];
+  saveTrendsLS();renderTrending();
+}
+function openTrendModal(id=null){
+  editingTrendId=id;
+  document.getElementById('trend-modal-title').textContent=id?'Editar Trending':'Adicionar ao Trending';
+  if(id){const t=trends.find(x=>x.id===id);document.getElementById('t-emoji').value=t.emoji||'';document.getElementById('t-name').value=t.name||'';document.getElementById('t-cat').value=t.cat||'';document.getElementById('t-change').value=t.change||'';document.getElementById('t-link').value=t.link||'';document.getElementById('t-badge').value=t.badge||'';}
+  else{['t-emoji','t-name','t-cat','t-change','t-link'].forEach(x=>document.getElementById(x).value='');document.getElementById('t-badge').value='';}
+  document.getElementById('trend-modal').style.display='block';
+}
+function closeTrendModal(){document.getElementById('trend-modal').style.display='none';}
+function saveTrend(){
+  const name=document.getElementById('t-name').value.trim();if(!name){alert('Nome obrigatório!');return;}
+  const t={id:editingTrendId||Date.now(),emoji:document.getElementById('t-emoji').value||'📦',name,cat:document.getElementById('t-cat').value,change:document.getElementById('t-change').value,link:document.getElementById('t-link').value||'#',badge:document.getElementById('t-badge').value};
+  if(editingTrendId){trends=trends.map(x=>x.id===editingTrendId?t:x);}else{trends.push(t);}
+  saveTrendsLS();renderTrending();closeTrendModal();showToast('Trending atualizado! ✅');
+}
+function deleteTrend(id){if(!confirm('Remover do trending?'))return;trends=trends.filter(x=>x.id!==id);saveTrendsLS();renderTrending();showToast('Removido do trending!');}
+
+// ── CUPONS ──
+let cupons = JSON.parse(localStorage.getItem('dvnet_cupons')||'null') || [
+  {id:1,code:'DVNET20',pct:'-20%',store:'Amazon · Headsets',desc:'',exp:'2025-12-31',status:'ativo'},
+  {id:2,code:'GAMER15',pct:'-15%',store:'Amazon · Teclados e Mouses',desc:'',exp:'2025-11-30',status:'ativo'},
+  {id:3,code:'FLASH30',pct:'-30%',store:'Amazon · Oferta relâmpago',desc:'Apenas para a oferta do dia',exp:'2025-06-30',status:'ativo'},
+  {id:4,code:'SETUP10',pct:'-10%',store:'Amazon · Monitores',desc:'',exp:'2025-10-31',status:'ativo'},
+  {id:5,code:'MIC10',pct:'-10%',store:'Amazon · Microfones',desc:'',exp:'2025-09-30',status:'ativo'},
+  {id:6,code:'CHAIR25',pct:'-25%',store:'Amazon · Cadeiras Gamer',desc:'',exp:'2025-08-31',status:'ativo'}
+];
+let editingCupId=null;
+function saveCupsLS(){ localStorage.setItem('dvnet_cupons',JSON.stringify(cupons)); }
+
+function renderCupons(){
+  document.getElementById('cup-count').textContent=cupons.length;
+  const el=document.getElementById('cup-list');
+  if(!cupons.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)">Nenhum cupom cadastrado.</div>';return;}
+  el.innerHTML=cupons.map(c=>`
+    <div class="panel" style="display:flex;align-items:center;gap:16px;padding:14px 18px">
+      <div style="background:${c.status==='ativo'?'#00d97e20':'#ff4d0020'};border:1px solid ${c.status==='ativo'?'#00d97e33':'#ff4d0033'};border-radius:8px;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:${c.status==='ativo'?'var(--green)':'var(--accent)'};white-space:nowrap">${c.code}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600">${c.pct} · ${c.store}</div>
+        <div style="font-size:11px;color:var(--muted)">Válido até ${c.exp||'—'} · <span style="color:${c.status==='ativo'?'var(--green)':'var(--accent)'}">${c.status==='ativo'?'✅ Ativo':'❌ Inativo'}</span></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-shrink:0">
+        <button class="pbtn pbtn-edit" style="padding:7px 10px" onclick="openCupModal(${c.id})">✏️</button>
+        <button class="pbtn pbtn-del" style="padding:7px 10px" onclick="deleteCupom(${c.id})">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function openCupModal(id=null){
+  editingCupId=id;
+  document.getElementById('cup-modal-title').textContent=id?'Editar Cupom':'Novo Cupom';
+  if(id){const c=cupons.find(x=>x.id===id);document.getElementById('c-code').value=c.code||'';document.getElementById('c-pct').value=c.pct||'';document.getElementById('c-store').value=c.store||'';document.getElementById('c-desc').value=c.desc||'';document.getElementById('c-exp').value=c.exp||'';document.getElementById('c-status').value=c.status||'ativo';}
+  else{['c-code','c-pct','c-store','c-desc','c-exp'].forEach(x=>document.getElementById(x).value='');document.getElementById('c-status').value='ativo';}
+  document.getElementById('cup-modal').style.display='block';
+}
+function closeCupModal(){document.getElementById('cup-modal').style.display='none';}
+function saveCupom(){
+  const code=document.getElementById('c-code').value.trim().toUpperCase();if(!code){alert('Código obrigatório!');return;}
+  const c={id:editingCupId||Date.now(),code,pct:document.getElementById('c-pct').value,store:document.getElementById('c-store').value,desc:document.getElementById('c-desc').value,exp:document.getElementById('c-exp').value,status:document.getElementById('c-status').value};
+  if(editingCupId){cupons=cupons.map(x=>x.id===editingCupId?c:x);}else{cupons.push(c);}
+  saveCupsLS();renderCupons();closeCupModal();showToast(editingCupId?'Cupom atualizado! ✅':'Cupom criado! ✅');
+}
+function deleteCupom(id){if(!confirm('Excluir cupom?'))return;cupons=cupons.filter(x=>x.id!==id);saveCupsLS();renderCupons();showToast('Cupom excluído!');}
+
+// ── OFERTA RELÂMPAGO ──
+let oferta = JSON.parse(localStorage.getItem('dvnet_oferta')||'null') || {emoji:'🎮',name:'Controle Xbox Elite Series 2',priceOrig:1499,priceSale:569,coupon:'GAMER20',couponPct:'-20% extra',link:'#',hours:6,units:'Apenas 3 restantes!'};
+
+function loadOferta(){
+  document.getElementById('of-emoji').value=oferta.emoji||'';
+  document.getElementById('of-name').value=oferta.name||'';
+  document.getElementById('of-orig').value=oferta.priceOrig||'';
+  document.getElementById('of-sale').value=oferta.priceSale||'';
+  document.getElementById('of-coupon').value=oferta.coupon||'';
+  document.getElementById('of-coupon-pct').value=oferta.couponPct||'';
+  document.getElementById('of-link').value=oferta.link||'';
+  document.getElementById('of-hours').value=oferta.hours||6;
+  document.getElementById('of-units').value=oferta.units||'';
+  updateOfPreview();
+}
+
+function calcOfDesc(){
+  const orig=parseFloat(document.getElementById('of-orig').value)||0;
+  const sale=parseFloat(document.getElementById('of-sale').value)||0;
+  const el=document.getElementById('of-desc-preview');
+  if(orig>0&&sale>0&&orig>sale){const d=Math.round((1-(sale/orig))*100);el.textContent='-'+d+'%';el.style.color=d>=50?'var(--green)':'var(--accent)';}
+  else el.textContent='—';
+  updateOfPreview();
+}
+
+function updateOfPreview(){
+  const emoji=document.getElementById('of-emoji').value||'⚡';
+  const name=document.getElementById('of-name').value||'Configure a oferta';
+  const sale=parseFloat(document.getElementById('of-sale').value)||0;
+  const orig=parseFloat(document.getElementById('of-orig').value)||0;
+  const coupon=document.getElementById('of-coupon').value;
+  const couponPct=document.getElementById('of-coupon-pct').value;
+  document.getElementById('ofp-emoji').textContent=emoji;
+  document.getElementById('ofp-name').textContent=name;
+  document.getElementById('ofp-prices').textContent=sale?'R$'+sale.toLocaleString('pt-BR',{minimumFractionDigits:2})+(orig?' (antes R$'+orig.toLocaleString('pt-BR',{minimumFractionDigits:2})+')':''):'';
+  document.getElementById('ofp-coupon').textContent=coupon?'Cupom: '+coupon+' '+couponPct:'';
+}
+
+function saveOferta(){
+  oferta={emoji:document.getElementById('of-emoji').value||'⚡',name:document.getElementById('of-name').value,priceOrig:parseFloat(document.getElementById('of-orig').value)||0,priceSale:parseFloat(document.getElementById('of-sale').value)||0,coupon:document.getElementById('of-coupon').value.toUpperCase(),couponPct:document.getElementById('of-coupon-pct').value,link:document.getElementById('of-link').value||'#',hours:parseInt(document.getElementById('of-hours').value)||6,units:document.getElementById('of-units').value};
+  localStorage.setItem('dvnet_oferta',JSON.stringify(oferta));
+  showToast('Oferta Relâmpago salva! ⚡');
+}
+
+['of-emoji','of-name','of-coupon','of-coupon-pct'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el) el.addEventListener('input',updateOfPreview);
+});
+
+// ── EXPORTAR ──
+function loadExportPage(){
+  document.getElementById('ex-prod-n').textContent = products.length;
+  document.getElementById('ex-blog-n').textContent = blogs.length;
+  document.getElementById('ex-cup-n').textContent = cupons.length;
+  document.getElementById('ex-trend-n').textContent = trends.length;
+  // category buttons
+  const cats = [...new Set(products.map(p=>p.cat))].filter(Boolean);
+  const catNames = {headset:'🎧 Headsets',mouse:'🖱️ Mouses',teclado:'⌨️ Teclados',monitor:'🖥️ Monitores',cadeira:'💺 Cadeiras',webcam:'📷 Webcams',microfone:'🎙️ Microfones',controle:'🎮 Controles',iluminacao:'💡 Iluminação',outro:'📦 Outros'};
+  const el = document.getElementById('cat-btns');
+  if(!cats.length){ el.innerHTML='<div style="font-size:13px;color:var(--muted)">Cadastre produtos para gerar páginas de categoria.</div>'; return; }
+  el.innerHTML = cats.map(c=>`
+    <button onclick="exportCatPage('${c}')" style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.15s" onmouseover="this.style.borderColor='var(--blue)'" onmouseout="this.style.borderColor='var(--border2)'">
+      <span>${catNames[c]||c} <span style="color:var(--muted);font-size:12px">(${products.filter(p=>p.cat===c).length} produtos)</span></span>
+      <span style="color:var(--blue);font-size:12px">📥 Baixar</span>
+    </button>`).join('');
+}
+
+function downloadFile(filename, content){
+  const a = document.createElement('a');
+  a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(content);
+  a.download = filename;
+  a.click();
+}
+
+function exportDataJS(){
+  const now = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const js = `// dvnet-data.js — Gerado pelo DV.NeT Admin
+// Atualizado em: ${now}
+// NÃO edite manualmente — use o admin para atualizar
+
+(function(){
+const DVNET_PRODUCTS = ${JSON.stringify(products, null, 2)};
+const DVNET_BLOGS    = ${JSON.stringify(blogs, null, 2)};
+const DVNET_TRENDS   = ${JSON.stringify(trends, null, 2)};
+const DVNET_CUPONS   = ${JSON.stringify(cupons, null, 2)};
+
+function fmt(n){ return (+n).toLocaleString('pt-BR',{minimumFractionDigits:2}); }
+function disc(orig,sale){ return orig>0&&sale>0?Math.round((1-(sale/orig))*100):0; }
+function stars(n){ return '★'.repeat(Math.floor(n))+(n%1>=.5?'½':'')+'☆'.repeat(5-Math.ceil(n)); }
+
+function renderProducts(){
+  // Destaque principal (primeiro produto)
+  const p0 = DVNET_PRODUCTS[0];
+  if(!p0) return;
+  const destEl = document.querySelector('.flash-product, [data-dvnet="destaque"], #destaque-produto');
+  if(destEl){ destEl.innerHTML = buildDestaque(p0); }
+
+  // Grid principal de produtos
+  const gridEl = document.querySelector('#products .products-grid, #products .grid, [data-dvnet="products-grid"]');
+  if(gridEl){ gridEl.innerHTML = DVNET_PRODUCTS.slice(0,5).map(buildCard).join(''); return; }
+
+  // Fallback: inject after section heading
+  const sec = document.getElementById('products') || document.querySelector('section[id*="product"]');
+  if(sec){
+    let grid = sec.querySelector('.dvnet-injected');
+    if(!grid){ grid=document.createElement('div'); grid.className='dvnet-injected'; grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:0 5%'; sec.appendChild(grid); }
+    grid.innerHTML = DVNET_PRODUCTS.map(buildCard).join('');
+  }
+}
+
+function buildDestaque(p){
+  const d=disc(p.priceOrig,p.priceSale);
+  return \`<div style="text-align:center">
+    <div style="font-size:52px;margin-bottom:8px">\${p.emoji||'📦'}</div>
+    <div style="font-size:18px;font-weight:700;margin-bottom:6px">\${p.name}</div>
+    \${p.priceOrig?'<div style="text-decoration:line-through;opacity:.6">R$'+fmt(p.priceOrig)+'</div>':''}
+    <div style="font-size:26px;font-weight:800;color:#ff4d00">R$\${fmt(p.priceSale)}</div>
+    \${d?'<div style="background:#00d97e;color:#000;font-weight:700;padding:2px 8px;border-radius:6px;display:inline-block;margin:4px 0">-'+d+'%</div>':''}
+    \${p.coupon?'<div style="font-size:13px;margin-top:6px">🎟️ <b>'+p.coupon+'</b> '+p.couponPct+'</div>':''}
+    <a href="\${p.link}" target="_blank" rel="noopener" style="display:block;margin-top:12px;padding:12px 24px;background:#ff4d00;color:#fff;border-radius:10px;font-weight:700;text-decoration:none">🛒 VER OFERTA</a>
+  </div>\`;
+}
+
+function buildCard(p){
+  const d=disc(p.priceOrig,p.priceSale);
+  return \`<div style="background:#1a1a2e;border:1px solid #ffffff1a;border-radius:14px;overflow:hidden">
+    <div style="height:100px;background:#16162a;display:flex;align-items:center;justify-content:center;font-size:44px;position:relative">
+      \${p.img?'<img src="'+p.img+'" style="width:100%;height:100%;object-fit:cover">':'<span>'+p.emoji+'</span>'}
+      \${p.badge?'<span style="position:absolute;top:8px;left:8px;background:#ff4d00;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px">'+p.badge+'</span>':''}
+      \${d?'<span style="position:absolute;top:8px;right:8px;background:#00d97e;color:#000;font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px">-'+d+'%</span>':''}
+    </div>
+    <div style="padding:14px">
+      \${p.brand?'<div style="font-size:10px;color:#8888aa;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px">'+p.brand+'</div>':''}
+      <div style="font-size:14px;font-weight:700;margin-bottom:8px;color:#f0f0ff">\${p.name}</div>
+      \${p.desc?'<div style="font-size:12px;color:#8888aa;margin-bottom:8px">'+p.desc+'</div>':''}
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px">
+        <span style="font-size:20px;font-weight:700;color:#ff4d00">R$\${fmt(p.priceSale)}</span>
+        \${p.priceOrig?'<span style="font-size:12px;color:#8888aa;text-decoration:line-through">R$'+fmt(p.priceOrig)+'</span>':''}
+      </div>
+      \${p.coupon?'<div style="font-size:11px;background:#00d97e15;color:#00d97e;padding:4px 8px;border-radius:6px;margin-bottom:8px;display:inline-block">🎟️ <b>'+p.coupon+'</b> '+p.couponPct+'</div>':''}
+      \${p.reviews?'<div style="font-size:11px;color:#8888aa;margin-bottom:8px">'+stars(p.stars)+' ('+p.reviews.toLocaleString('pt-BR')+')</div>':''}
+      <a href="\${p.link}" target="_blank" rel="noopener" style="display:block;padding:10px;background:#ff4d00;color:#fff;border-radius:8px;font-weight:700;font-size:13px;text-align:center;text-decoration:none">🛒 VER OFERTA</a>
+      \${p.views?'<div style="font-size:11px;color:#8888aa;margin-top:6px;text-align:center">🔥 '+p.views+' pessoas vendo agora \${p.units?'· '+p.units:''}</div>':''}
+    </div>
+  </div>\`;
+}
+
+function renderBlog(){
+  const sec = document.getElementById('blog');
+  if(!sec||!DVNET_BLOGS.length) return;
+  let grid = sec.querySelector('.dvnet-blog');
+  if(!grid){ grid=document.createElement('div'); grid.className='dvnet-blog'; grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:0 5%'; sec.appendChild(grid); }
+  grid.innerHTML = DVNET_BLOGS.map(b=>\`
+    <div style="background:#1a1a2e;border:1px solid #ffffff1a;border-radius:14px;overflow:hidden">
+      \${b.img?'<img src="'+b.img+'" style="width:100%;height:140px;object-fit:cover">':'<div style="height:80px;background:#16162a;display:flex;align-items:center;justify-content:center;font-size:36px">'+(b.cat==='Review'?'📋':b.cat==='Guia'?'📖':b.cat==='Top 10'?'🏆':'📰')+'</div>'}
+      <div style="padding:16px">
+        <span style="font-size:10px;font-weight:700;background:#ff4d0020;color:#ff4d00;padding:2px 7px;border-radius:5px;letter-spacing:.5px">\${b.cat.toUpperCase()}</span>
+        <div style="font-size:15px;font-weight:700;margin:8px 0 6px;color:#f0f0ff;line-height:1.4">\${b.title}</div>
+        \${b.desc?'<div style="font-size:12px;color:#8888aa;margin-bottom:10px;line-height:1.5">'+b.desc+'</div>':''}
+        <div style="font-size:11px;color:#8888aa">\${b.read?'⏱ '+b.read+' · ':''}\${b.views?'👁 '+b.views.toLocaleString('pt-BR')+' views · ':''}\${b.date||''}</div>
+        \${b.link&&b.link!='#'?'<a href="'+b.link+'" target="_blank" rel="noopener" style="display:block;margin-top:10px;padding:8px;background:#1616 2a;border:1px solid #ffffff1a;border-radius:8px;font-size:12px;font-weight:600;color:#f0f0ff;text-align:center;text-decoration:none">LER MAIS →</a>':''}
+      </div>
+    </div>\`).join('');
+}
+
+function renderTrending(){
+  const sec = document.getElementById('trending');
+  if(!sec||!DVNET_TRENDS.length) return;
+  let list = sec.querySelector('.dvnet-trending');
+  if(!list){ list=document.createElement('div'); list.className='dvnet-trending'; list.style.cssText='display:flex;flex-direction:column;gap:10px;padding:0 5%'; sec.appendChild(list); }
+  list.innerHTML = DVNET_TRENDS.map((t,i)=>\`
+    <a href="\${t.link||'#'}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:#1a1a2e;border:1px solid #ffffff1a;border-radius:12px;text-decoration:none;transition:.2s">
+      <span style="font-size:20px;font-weight:700;color:#ff4d00;width:24px">\${String(i+1).padStart(2,'0')}</span>
+      <span style="font-size:22px">\${t.emoji||'📦'}</span>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:#f0f0ff">\${t.name} \${t.badge?'<span style="font-size:10px;background:#ff4d00;color:#fff;padding:1px 5px;border-radius:4px;margin-left:4px">'+t.badge+'</span>':''}</div>
+        \${t.cat||t.change?'<div style="font-size:12px;color:#8888aa">'+(t.cat||'')+(t.change?' · <span style="color:#00d97e;font-weight:600">'+t.change+'</span>':'')+'</div>':''}
+      </div>
+      <span style="color:#8888aa;font-size:18px">→</span>
+    </a>\`).join('');
+}
+
+function renderCupons(){
+  const sec = document.getElementById('cupons');
+  if(!sec) return;
+  const ativos = DVNET_CUPONS.filter(c=>c.status==='ativo');
+  if(!ativos.length) return;
+  let grid = sec.querySelector('.dvnet-cupons');
+  if(!grid){ grid=document.createElement('div'); grid.className='dvnet-cupons'; grid.style.cssText='display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:0 5%'; sec.appendChild(grid); }
+  grid.innerHTML = ativos.map(c=>\`
+    <div style="background:#1a1a2e;border:1px solid #00d97e33;border-radius:12px;padding:16px;text-align:center">
+      <div style="font-family:monospace;font-size:20px;font-weight:800;color:#00d97e;letter-spacing:2px;margin-bottom:4px">\${c.code}</div>
+      <div style="font-size:18px;font-weight:700;color:#ff4d00;margin-bottom:4px">\${c.pct}</div>
+      <div style="font-size:12px;color:#8888aa">\${c.store||''}</div>
+      \${c.exp?'<div style="font-size:11px;color:#8888aa;margin-top:4px">Válido até '+c.exp+'</div>':''}
+      <button onclick="navigator.clipboard.writeText('\${c.code}');this.textContent='✅ Copiado!';setTimeout(()=>this.textContent='📋 Copiar Código',2000)" style="margin-top:10px;width:100%;padding:8px;background:#00d97e20;border:1px solid #00d97e33;border-radius:7px;color:#00d97e;font-size:12px;font-weight:600;cursor:pointer">📋 Copiar Código</button>
+    </div>\`).join('');
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  renderProducts();
+  renderBlog();
+  renderTrending();
+  renderCupons();
+});
+})();`;
+  downloadFile('dvnet-data.js', js);
+  showToast('dvnet-data.js baixado! 📥');
+}
+
+function exportCatPage(cat){
+  const catNames = {headset:'Headsets Gamer',mouse:'Mouses Gamer',teclado:'Teclados Mecânicos',monitor:'Monitores Gamer',cadeira:'Cadeiras Gamer',webcam:'Webcams',microfone:'Microfones',controle:'Controles',iluminacao:'Iluminação RGB',outro:'Outros Produtos'};
+  const catEmoji = {headset:'🎧',mouse:'🖱️',teclado:'⌨️',monitor:'🖥️',cadeira:'💺',webcam:'📷',microfone:'🎙️',controle:'🎮',iluminacao:'💡',outro:'📦'};
+  const prods = products.filter(p=>p.cat===cat);
+  const title = catNames[cat]||cat;
+  const emoji = catEmoji[cat]||'📦';
+  const brands = [...new Set(prods.map(p=>p.brand).filter(Boolean))];
+
+  const cards = prods.map(p=>{
+    const d = p.priceOrig>0?Math.round((1-(p.priceSale/p.priceOrig))*100):0;
+    return `<div class="pcard" data-brand="${p.brand||''}" data-price="${p.priceSale}" data-disc="${d}">
+      <div class="pcard-img">
+        ${p.img?`<img src="${p.img}" onerror="this.style.display='none'" style="width:100%;height:100%;object-fit:cover">`:`<span>${p.emoji||'📦'}</span>`}
+        ${p.badge?`<span class="badge-top-l">${p.badge}</span>`:''}
+        ${d?`<span class="badge-top-r">-${d}%</span>`:''}
+      </div>
+      <div class="pcard-body">
+        ${p.brand?`<div class="brand">${p.brand}</div>`:''}
+        <div class="pname">${p.name}</div>
+        ${p.desc?`<div class="pdesc">${p.desc}</div>`:''}
+        <div class="prices">
+          <span class="sale">R$${(+p.priceSale).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+          ${p.priceOrig?`<span class="orig">R$${(+p.priceOrig).toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>`:''}
+        </div>
+        ${p.coupon?`<div class="coupon">🎟️ <b>${p.coupon}</b> ${p.couponPct}</div>`:''}
+        ${p.reviews?`<div class="stars">${'★'.repeat(Math.floor(p.stars))}${'☆'.repeat(5-Math.floor(p.stars))} (${p.reviews.toLocaleString('pt-BR')})</div>`:''}
+        <a href="${p.link}" target="_blank" rel="noopener" class="btn-buy">🛒 VER OFERTA</a>
+        ${p.views?`<div class="views">🔥 ${p.views} vendo agora ${p.units?'· '+p.units:''}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${emoji} ${title} — DV.NeT</title>
+<meta name="description" content="Os melhores ${title.toLowerCase()} com os melhores preços. Curadoria DV.NeT.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#080810;--bg2:#0f0f1a;--card:#1a1a2e;--border:#ffffff1a;--accent:#ff4d00;--text:#f0f0ff;--muted:#8888aa;--green:#00d97e}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh}
+nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-size:22px;font-weight:700;text-decoration:none;color:var(--text)}.logo span{color:var(--accent)}
+.back-btn{padding:8px 16px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);text-decoration:none;font-size:13px;font-weight:500}
+.hero{padding:48px 5% 32px;border-bottom:1px solid var(--border)}
+.hero-emoji{font-size:48px;margin-bottom:12px}
+.hero h1{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.hero h1 span{color:var(--accent)}
+.hero p{color:var(--muted);font-size:15px}
+.controls{padding:20px 5%;display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-bottom:1px solid var(--border)}
+.filter-label{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-right:4px}
+select{padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:13px;outline:none;cursor:pointer}
+.count{margin-left:auto;font-size:13px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:28px 5%}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:.2s}.pcard:hover{transform:translateY(-3px);border-color:var(--accent)}
+.pcard-img{height:160px;background:#16162a;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative}
+.badge-top-l{position:absolute;top:10px;left:10px;background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px}
+.badge-top-r{position:absolute;top:10px;right:10px;background:var(--green);color:#000;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px}
+.pcard-body{padding:16px}
+.brand{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
+.pname{font-size:14px;font-weight:700;margin-bottom:6px;line-height:1.4}
+.pdesc{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.4}
+.prices{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.sale{font-size:22px;font-weight:800;color:var(--accent)}
+.orig{font-size:12px;color:var(--muted);text-decoration:line-through}
+.coupon{font-size:11px;background:#00d97e15;color:var(--green);padding:4px 9px;border-radius:6px;display:inline-block;margin-bottom:8px}
+.stars{font-size:12px;color:#fbbf24;margin-bottom:10px}
+.btn-buy{display:block;padding:11px;background:var(--accent);color:#fff;border-radius:9px;font-weight:700;font-size:13px;text-align:center;text-decoration:none;transition:.15s}.btn-buy:hover{background:#ff7a00}
+.views{font-size:11px;color:var(--muted);text-align:center;margin-top:7px}
+.empty{text-align:center;padding:60px;color:var(--muted);grid-column:1/-1}
+footer{padding:32px 5%;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:13px}
+footer a{color:var(--accent);text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:24px}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">DV<span>.</span>NeT</a>
+  <a href="/" class="back-btn">← Voltar ao site</a>
+</nav>
+<div class="hero">
+  <div class="hero-emoji">${emoji}</div>
+  <h1>${title.split(' ')[0]} <span>${title.split(' ').slice(1).join(' ')}</span></h1>
+  <p>${prods.length} produto${prods.length!==1?'s':''} encontrado${prods.length!==1?'s':''} · Curadoria DV.NeT · Atualizado hoje</p>
+</div>
+<div class="controls">
+  <span class="filter-label">Ordenar:</span>
+  <select id="sort" onchange="applyFilters()">
+    <option value="">Padrão</option>
+    <option value="price-asc">Menor preço</option>
+    <option value="price-desc">Maior preço</option>
+    <option value="disc">Maior desconto</option>
+  </select>
+  ${brands.length>1?`<span class="filter-label" style="margin-left:8px">Marca:</span>
+  <select id="brand-f" onchange="applyFilters()">
+    <option value="">Todas as marcas</option>
+    ${brands.map(b=>`<option value="${b}">${b}</option>`).join('')}
+  </select>`:''}
+  <span class="count" id="count-label">${prods.length} produtos</span>
+</div>
+<div class="grid" id="grid">${cards}</div>
+<footer>© 2025 <a href="/">DV.NeT</a> — Curadoria de setup gamer & tech. Links de afiliado.</footer>
+<script>
+function applyFilters(){
+  const sort=document.getElementById('sort').value;
+  const brand=document.getElementById('brand-f')?document.getElementById('brand-f').value:'';
+  let cards=[...document.querySelectorAll('.pcard')];
+  cards.forEach(c=>c.style.display='');
+  if(brand) cards.forEach(c=>{ if(c.dataset.brand!==brand) c.style.display='none'; });
+  const visible=cards.filter(c=>c.style.display!=='none');
+  if(sort){
+    const grid=document.getElementById('grid');
+    visible.sort((a,b)=>{
+      if(sort==='price-asc') return +a.dataset.price - +b.dataset.price;
+      if(sort==='price-desc') return +b.dataset.price - +a.dataset.price;
+      if(sort==='disc') return +b.dataset.disc - +a.dataset.disc;
+      return 0;
+    });
+    visible.forEach(c=>grid.appendChild(c));
+  }
+  document.getElementById('count-label').textContent=visible.length+' produto'+(visible.length!==1?'s':'');
+}
+<\/script>
+</body>
+</html>`;
+
+  downloadFile(`${cat}.html`, html);
+  showToast(`${catEmoji[cat]||'📦'} ${catNames[cat]||cat} baixado! 📥`);
+}
+
+function exportBackup(){
+  const backup = {
+    version: '1.0',
+    date: new Date().toISOString(),
+    products, blogs, trends, cupons, oferta
+  };
+  downloadFile(`dvnet-backup-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(backup, null, 2));
+  showToast('Backup exportado! 💾');
+}
+
+function importBackup(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if(data.products){ products=data.products; saveToLS(); }
+      if(data.blogs){ blogs=data.blogs; saveBlogsLS(); }
+      if(data.trends){ trends=data.trends; saveTrendsLS(); }
+      if(data.cupons){ cupons=data.cupons; saveCupsLS(); }
+      if(data.oferta){ oferta=data.oferta; localStorage.setItem('dvnet_oferta',JSON.stringify(oferta)); }
+      renderProducts(); renderBlog(); renderTrending(); renderCupons();
+      loadExportPage();
+      showToast('Backup importado com sucesso! ✅');
+    } catch(err){ alert('Arquivo inválido. Certifique-se que é um backup do DV.NeT.'); }
+  };
+  reader.readAsText(file);
+}
+
+// ── NAVIGATION UPDATE ──
+
+if(localStorage.getItem('dvnet_admin')==='1'){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  renderProducts(); renderBlog(); renderTrending(); renderCupons(); loadOferta(); loadExportPage();
+}
+
+document.getElementById('pw').focus();
+</script>
+</body>
+</html>
